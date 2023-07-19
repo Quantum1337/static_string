@@ -4,6 +4,7 @@
 #include "Implementation/basic_string_Iterator.hpp"
 #include "Implementation/basic_string_Assert.hpp"
 #include <array>
+#include <algorithm>
 
 namespace stds
 {
@@ -178,6 +179,97 @@ class basic_string<CharT, Traits>
             m_pos = m_begin;
         }
 
+        basic_string& insert(size_type _index, size_type _count, CharT _ch)
+        {
+            assert_space_left();
+            assert_access_in_range(_index);
+
+            unchecked_insert_value(begin() += _index, _count, _ch);
+
+            return *this;
+        }
+
+        basic_string& insert(size_type _index, const CharT* _s)
+        {
+            assert_space_left();
+            assert_access_in_range(_index);
+
+            size_type len = internal_strlen(_s);
+            unchecked_insert_it(begin() += _index, &_s[0], &_s[len]);
+
+            return *this;            
+        }
+
+        basic_string& insert( size_type _index, const CharT* _s, size_type _count)
+        {
+            assert_space_left();
+            assert_access_in_range(_index);
+
+            unchecked_insert_it(begin() += _index, &_s[0], &_s[_count]);
+
+            return *this;         
+        }
+
+        basic_string& insert(size_type _index, const basic_string& _str)
+        {
+            assert_space_left();
+            assert_access_in_range(_index);
+
+            unchecked_insert_it(begin() += _index, _str.begin(), _str.end());
+
+            return *this; 
+        }
+
+        basic_string& insert(size_type _index, const basic_string& _str,
+                             size_type _s_index, size_type _count /*= npos */)
+        {
+            iterator substrStart = to_iterator(_str.begin()) + _s_index;
+            iterator substrStop = to_iterator(_str.begin()) + _count;
+
+            assert_space_left();
+            assert_access_in_range(_index);
+            assert_valid_iterator_pair(substrStart, substrStop);
+            BASIC_STRING_ASSERT(static_cast<size_type>(std::distance(substrStart, substrStop)) <= _str.size());
+
+            unchecked_insert_it(begin() += _index, substrStart, substrStop);
+
+            return *this;
+        }
+
+        iterator insert(const_iterator _pos, CharT _ch)
+        {
+            assert_space_left();
+            assert_iterator_in_range(_pos);
+
+            return unchecked_insert_value(_pos, 1u, _ch);
+        }
+
+        iterator insert(const_iterator _pos, size_type _count, CharT _ch)
+        { 
+            assert_space_left();
+            assert_iterator_in_range(_pos);
+
+            return unchecked_insert_value(_pos, _count, _ch);
+        }
+
+        template< class InputIt >
+        iterator insert(const_iterator _pos, InputIt _first, InputIt _last)
+        {
+            assert_space_left();
+            assert_iterator_in_range(_pos);
+            assert_valid_iterator_pair(_first, _last);
+
+            return unchecked_insert_it(_pos, _first, _last);
+        }
+
+        iterator insert(const_iterator _pos, std::initializer_list<CharT> _ilist)
+        {
+            assert_space_left();
+            assert_iterator_in_range(_pos);
+
+            return unchecked_insert_it(_pos, _ilist.begin(), _ilist.end());
+        }
+
         int compare(const basic_string& _str) const noexcept
         {
             //https://en.cppreference.com/w/cpp/string/char_traits
@@ -193,6 +285,11 @@ class basic_string<CharT, Traits>
             // return 0;
             return 0;
         }
+
+        // basic_string substr(size_type _pos /*= 0*/, size_type _count /*npos*/) const
+        // {
+        //     return basic_string<50>(*this, _pos, _count);
+        // }
 
         basic_string(pointer _pointer, size_type _storageSize)
         : m_begin(_pointer)
@@ -234,6 +331,27 @@ class basic_string<CharT, Traits>
             return __builtin_strlen(_s);
         }
 
+        iterator unchecked_insert_value(const_iterator _pos, size_type _count, CharT _value) noexcept
+        {
+            iterator oldEnd{end()};
+            unchecked_push_back_count(_count, _value);
+            
+            iterator positionToInsert{to_iterator(_pos)};
+            (void) std::rotate(positionToInsert, oldEnd, end());
+            return positionToInsert;
+        }
+
+        template<class InputIt>
+        iterator unchecked_insert_it(const_iterator _pos, InputIt _first, InputIt _last)
+        {
+            iterator oldEnd{end()};
+            (void) std::copy(_first, _last, back_inserter(*this));
+
+            iterator positionToInsert{to_iterator(_pos)};
+            (void) std::rotate(positionToInsert, oldEnd, end());   
+            return positionToInsert;                            
+        }
+
         template<typename InputIt, typename OutputIt>
         void internal_rangeInit(InputIt _first, InputIt _last, OutputIt _output)
         {
@@ -257,6 +375,16 @@ class basic_string<CharT, Traits>
             ++m_pos;
         }
 
+        iterator to_iterator(const_iterator _iterator) noexcept
+        {
+            return begin() + (_iterator - begin());
+        }
+
+        void assert_space_left() const noexcept
+        {
+            BASIC_STRING_ASSERT(!full());
+        }
+
         void assert_count_in_range(size_type _count) const noexcept
         {
             BASIC_STRING_ASSERT(_count <= max_size());
@@ -265,6 +393,13 @@ class basic_string<CharT, Traits>
         void assert_access_in_range(size_type _count) const noexcept
         {
             BASIC_STRING_ASSERT(_count <= size());
+        }
+
+        template<typename InputIt>
+        void assert_iterator_in_range(InputIt _it) const noexcept
+        {
+            BASIC_STRING_ASSERT(begin() <= _it);
+            BASIC_STRING_ASSERT(_it <= end());
         }
 
         template<typename InputIt>
