@@ -83,6 +83,7 @@ class base_iterator
 
         // -- Access
         reference operator*() const { return *m_pointer; }
+        reference operator[](size_type _pos) { return *(m_pointer + _pos); }
         pointer operator->() const { return m_pointer; }
 
         // -- Binary operators
