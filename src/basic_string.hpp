@@ -283,6 +283,20 @@ class basic_string<CharT, Traits>
             return unchecked_erase(_first, _last);
         }
 
+        void push_back(CharT _ch)
+        {
+            assert_space_left();
+
+            unchecked_push_back(_ch);
+        }
+
+        void pop_back()
+        {
+            assert_has_elements();
+
+            erase(end() - 1);
+        }
+
         int compare(const basic_string& _str) const noexcept
         {
             //https://en.cppreference.com/w/cpp/string/char_traits
@@ -421,6 +435,11 @@ class basic_string<CharT, Traits>
             return begin() + (_iterator - begin());
         }
 
+        void assert_has_elements() const noexcept
+        {
+            DEQUE_ASSERT(!empty());
+        }
+        
         void assert_space_left() const noexcept
         {
             BASIC_STRING_ASSERT(!full());
