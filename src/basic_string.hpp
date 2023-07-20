@@ -270,6 +270,27 @@ class basic_string<CharT, Traits>
             return unchecked_insert_it(_pos, _ilist.begin(), _ilist.end());
         }
 
+        basic_string& erase(size_type _index /*= 0*/, size_type _count /*= npos*/)
+        {
+            assert_access_in_range(_index);
+
+            unchecked_erase(begin() + _index, std::next(std::min(_count, size() - _index)));
+
+            return *this;
+        }
+        iterator erase(const_iterator _pos)
+        {
+            assert_iterator_in_range(_pos);
+
+            return unchecked_erase(_pos, std::next(_pos));
+        }
+        iterator erase(const_iterator _first, const_iterator _last)
+        {
+            assert_iterator_pair_in_range(_first, _last);
+
+            return unchecked_erase(_first, _last);
+        }
+
         int compare(const basic_string& _str) const noexcept
         {
             //https://en.cppreference.com/w/cpp/string/char_traits
@@ -299,6 +320,34 @@ class basic_string<CharT, Traits>
         }
     
     protected:
+
+        iterator unchecked_erase(const_iterator _first, const_iterator _last)
+        {
+            if(_first != _last)
+            {
+                if(_first == begin())
+                {
+                    std::for_each(_first, _last, front_destroyer(*this)); //LCOV_EXCL_BR_LINE: We are not testing std::for_each branches
+                    return to_iterator(_last);
+                }
+                else if (_last == end())
+                {
+                    std::for_each(std::make_reverse_iterator(_last), std::make_reverse_iterator(_first), back_destroyer(*this)); //LCOV_EXCL_BR_LINE: We are not testing std::for_each branches
+                    return end();
+                }
+                else
+                {
+                    //ToDo: Pop_Back / Pop_Front depends on distance to begin() / end()
+                    static_cast<void>(std::rotate(to_iterator(_first), to_iterator(_last), end())); //LCOV_EXCL_BR_LINE: We are not testing std::rotate branches
+                    std::for_each(std::make_reverse_iterator(_last), std::make_reverse_iterator(_first), back_destroyer(*this)); //LCOV_EXCL_BR_LINE: We are not testing std::for_each branches
+                    return to_iterator(_first);
+                }
+            }
+            else
+            {
+                return to_iterator(_last);
+            }
+        }
 
         // -- Iterator adapter (back inserter)
         template<typename TContainer>
