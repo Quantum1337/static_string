@@ -188,7 +188,6 @@ class basic_string<CharT, Traits>
 
             return *this;
         }
-
         basic_string& insert(size_type _index, const CharT* _s)
         {
             assert_space_left();
@@ -199,7 +198,6 @@ class basic_string<CharT, Traits>
 
             return *this;            
         }
-
         basic_string& insert( size_type _index, const CharT* _s, size_type _count)
         {
             assert_space_left();
@@ -209,7 +207,6 @@ class basic_string<CharT, Traits>
 
             return *this;         
         }
-
         basic_string& insert(size_type _index, const basic_string& _str)
         {
             assert_space_left();
@@ -219,7 +216,6 @@ class basic_string<CharT, Traits>
 
             return *this; 
         }
-
         basic_string& insert(size_type _index, const basic_string& _str,
                              size_type _s_index, size_type _count /*= npos */)
         {
@@ -235,7 +231,6 @@ class basic_string<CharT, Traits>
 
             return *this;
         }
-
         iterator insert(const_iterator _pos, CharT _ch)
         {
             assert_space_left();
@@ -243,7 +238,6 @@ class basic_string<CharT, Traits>
 
             return unchecked_insert_value(_pos, 1u, _ch);
         }
-
         iterator insert(const_iterator _pos, size_type _count, CharT _ch)
         { 
             assert_space_left();
@@ -251,7 +245,6 @@ class basic_string<CharT, Traits>
 
             return unchecked_insert_value(_pos, _count, _ch);
         }
-
         template< class InputIt >
         iterator insert(const_iterator _pos, InputIt _first, InputIt _last)
         {
@@ -261,7 +254,6 @@ class basic_string<CharT, Traits>
 
             return unchecked_insert_it(_pos, _first, _last);
         }
-
         iterator insert(const_iterator _pos, std::initializer_list<CharT> _ilist)
         {
             assert_space_left();
