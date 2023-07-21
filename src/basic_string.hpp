@@ -374,20 +374,55 @@ class basic_string<CharT, Traits>
 
         int compare(const basic_string& _str) const noexcept
         {
-            //https://en.cppreference.com/w/cpp/string/char_traits
-            // while (n-- != 0)
-            // {
-            //     if (to_upper(*s1) < to_upper(*s2))
-            //         return -1;
-            //     if (to_upper(*s1) > to_upper(*s2))
-            //         return 1;
-            //     ++s1;
-            //     ++s2;
-            // }
-            // return 0;
-            return 0;
+            return unchecked_compare(begin(), end(), _str.begin(), _str.end());
         }
+        int compare(size_type _pos1, size_type _count1, const basic_string& _str) const
+        {
+            assert_access_in_range(_pos1);
 
+            return unchecked_compare(begin() + _pos1, 
+                                     begin() + _pos1 + std::min(_count1, size() - _pos1), 
+                                     _str.begin(), 
+                                     _str.end());
+        }
+        int compare(size_type _pos1, size_type _count1, 
+                    const basic_string& _str, size_type _pos2, size_type _count2 /*= npos*/) const
+        {
+            assert_access_in_range(_pos1);
+            // assert_access_in_range(_pos2);
+
+            return unchecked_compare(begin() + _pos1, 
+                                     begin() + _pos1 + std::min(_count1, size() - _pos1), 
+                                     _str.begin() + _pos2, 
+                                     _str.begin() + _pos2 + std::min(_count2, size() - _pos2));
+        }
+        int compare(const CharT* _s) const
+        {
+            size_type len = internal_strlen(_s);
+
+            return unchecked_compare(&_s[0], &_s[len], begin(), end());
+        }
+        int compare(size_type _pos1, size_type _count1, const CharT* _s) const
+        {
+            assert_access_in_range(_pos1);
+
+            size_type len = internal_strlen(_s);
+
+            return unchecked_compare(begin() + _pos1, 
+                                     begin() + _pos1 + std::min(_count1, size() - _pos1), 
+                                     &_s[0], 
+                                     &_s[len]);
+        }
+        int compare(size_type _pos1, size_type _count1,
+                    const CharT* _s, size_type _count2) const
+        {
+            assert_access_in_range(_pos1);
+
+            return unchecked_compare(begin() + _pos1, 
+                                     begin() + _pos1 + std::min(_count1, size() - _pos1), 
+                                     &_s[0], 
+                                     &_s[0] + _count2);
+        }
         // basic_string substr(size_type _pos /*= 0*/, size_type _count /*npos*/) const
         // {
         //     return basic_string<50>(*this, _pos, _count);
@@ -401,6 +436,26 @@ class basic_string<CharT, Traits>
         }
     
     protected:
+
+        template<typename InputIt1, typename InputIt2>
+        int unchecked_compare(const InputIt1 _first1, const InputIt1 _last1, const InputIt2 _first2, const InputIt2 _last2) const
+        {
+            std::pair<InputIt1, InputIt2> itPair = std::mismatch(_first1, _last1, _first2, _last2);
+
+            if((itPair.first == _last1) && (itPair.second == _last2))
+            {
+                return 0;
+            }
+            else if((itPair.first == _last1) || (*itPair.first < *itPair.second))
+            {
+                return -1;
+            }
+            else
+            {
+                return 1;
+            }
+            
+        }
 
         iterator unchecked_erase(const_iterator _first, const_iterator _last)
         {
@@ -455,7 +510,7 @@ class basic_string<CharT, Traits>
             return back_insert_iterator<TContainer>(_container); 
         }
 
-        size_type internal_strlen(const_pointer _s)
+        size_type internal_strlen(const_pointer _s) const
         {
             return __builtin_strlen(_s);
         }

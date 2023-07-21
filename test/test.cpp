@@ -180,7 +180,7 @@ void Test_Constructors(void)
     // CHECK_MEM(buf, "12X", 3);
 
     // // test finds
-    // s1 = "s4s4";
+    s1 = "s4s4";
     // CHECK_SIZE_T(s1.find(s4), 0);
     // CHECK_SIZE_T(s1.find(s4, 1), 2);
     // CHECK_SIZE_T(s1.find(s4, 3), STD string::npos);
@@ -241,21 +241,21 @@ void Test_Constructors(void)
     // CHECK_SIZE_T(s1.find_last_not_of('s', 2), 1);
     // CHECK_SIZE_T(s1.find_last_not_of('s', 0), STD string::npos);
 
-    // // test compares
-    // CHECK(s1.compare(s1) == 0);
-    // CHECK(s1.compare(0, 6, s1) == 0);
-    // CHECK(s1.compare(2, 2, s4) == 0);
-    // CHECK(s1.compare(2, 2, s4, 0, 2) == 0);
-    // CHECK(s1.compare("s4s4") == 0);
-    // CHECK(s1.compare(0, 2, "s4") == 0);
-    // CHECK(s1.compare(0, 2, "s4", 2) == 0);
-    // CHECK(s1.compare(2, 2, "s4xx", 0, 2) == 0);
-    // CHECK(s1.compare(s4) != 0);
-    // CHECK(s1.compare(1, 4, s1) != 0);
-    // CHECK(s1.compare(0, 4, s4, 0, 2) != 0);
-    // CHECK(s1.compare("s4s5") != 0);
-    // CHECK(s1.compare(0, 4, "s44", 1) != 0);
-    // CHECK(s1.compare(1, 4, "s4xx", 0, 2) != 0);
+    // test compares
+    TEST_ASSERT_TRUE(s1.compare(s1) == 0);
+    TEST_ASSERT_TRUE(s1.compare(0, 6, s1) == 0);
+    TEST_ASSERT_TRUE(s1.compare(2, 2, s4) == 0);
+    TEST_ASSERT_TRUE(s1.compare(2, 2, s4, 0, 2) == 0);
+    TEST_ASSERT_TRUE(s1.compare("s4s4") == 0);
+    TEST_ASSERT_TRUE(s1.compare(0, 2, "s4") == 0);
+    TEST_ASSERT_TRUE(s1.compare(0, 2, "s4", 2) == 0);
+    // TEST_ASSERT_TRUE(s1.compare(2, 2, "s4xx", 0, 2) == 0);
+    TEST_ASSERT_TRUE(s1.compare(s4) != 0);
+    TEST_ASSERT_TRUE(s1.compare(1, 4, s1) != 0);
+    TEST_ASSERT_TRUE(s1.compare(0, 4, s4, 0, 2) != 0);
+    TEST_ASSERT_TRUE(s1.compare("s4s5") != 0);
+    TEST_ASSERT_TRUE(s1.compare(0, 4, "s44", 1) != 0);
+    // TEST_ASSERT_TRUE(s1.compare(1, 4, "s4xx", 0, 2) != 0);
 
     // CHECK(s1 == s1);
     // CHECK(s1 == "s4s4");
@@ -293,21 +293,21 @@ void Test_Constructors(void)
         TEST_ASSERT_EQUAL(s12.size(), 3);
         TEST_ASSERT_EQUAL(s12[2], 'c');
 
-        // s11 += init;
-        // TEST_ASSERT_EQUAL(s11.size(), 6);
-        // TEST_ASSERT_EQUAL(s11[5], 'c');
+        s11 += init;
+        TEST_ASSERT_EQUAL(s11.size(), 6);
+        TEST_ASSERT_EQUAL(s11[5], 'c');
 
         s11 = init;
         TEST_ASSERT_EQUAL(s11.size(), 3);
         TEST_ASSERT_EQUAL(s11[2], 'c');
 
         // s11.append(init);
-        // CHECK_SIZE_T(s11.size(), 6);
-        // CHECK_INT(s11[5], 'c');
+        // TEST_ASSERT_EQUAL(s11.size(), 6);
+        // TEST_ASSERT_EQUAL(s11[5], 'c');
 
-        // s11.assign(init);
-        // CHECK_SIZE_T(s11.size(), 3);
-        // CHECK_INT(s11[2], 'c');
+        s11.assign(init);
+        TEST_ASSERT_EQUAL(s11.size(), 3);
+        TEST_ASSERT_EQUAL(s11[2], 'c');
 
         TEST_ASSERT_EQUAL(*s11.insert(s11.begin() + 1, init), *init.begin());
         TEST_ASSERT_EQUAL(s11.size(), 6);
