@@ -85,6 +85,8 @@ class basic_string<CharT, Traits>
         
         basic_string& assign(basic_string&& _other)
         { 
+            (void) _other;
+            return *this;
         }
         
         basic_string& assign(const CharT* _s, size_type _count)
@@ -297,6 +299,79 @@ class basic_string<CharT, Traits>
             erase(end() - 1);
         }
 
+        basic_string& append(size_type _count, CharT _ch)
+        {
+            assert_count_in_range(size() + _count);
+            unchecked_push_back_count(_count, _ch);
+            return *this;
+        }
+        basic_string& append(const basic_string& _str)
+        {
+            assert_count_in_range(size() + std::distance(_str.begin(), _str.end()));
+            internal_rangeInit(_str.begin(), _str.end(), back_inserter(*this));
+            return *this;
+        }
+        basic_string& append(const basic_string& _str,
+                             size_type _pos, size_type _count /*= npos*/)
+        {
+            iterator substrStart = to_iterator(_str.begin()) + _pos;
+            iterator substrStop = to_iterator(_str.begin()) + (_pos + _count);
+
+            assert_valid_iterator_pair(substrStart, substrStop);
+            BASIC_STRING_ASSERT(static_cast<size_type>(std::distance(substrStart, substrStop)) <= _str.size());
+            assert_count_in_range(size() + std::distance(substrStart, substrStop));
+ 
+            internal_rangeInit(substrStart, substrStop, back_inserter(*this));
+        }
+        basic_string& append(const CharT* _s, size_type _count)
+        {
+            assert_count_in_range(size() + _count);
+
+            internal_rangeInit(&_s[0], &_s[_count], back_inserter(*this));
+            return *this;
+        }
+        basic_string& append(const CharT* _s)
+        {
+            size_type len = this->internal_strlen(_s);
+            assert_count_in_range(size() + len);
+
+            internal_rangeInit(&_s[0], &_s[len], back_inserter(*this));
+            return *this;
+        }
+        template< class InputIt >
+        basic_string& append(InputIt _first, InputIt _last)
+        {
+            assert_count_in_range(size() + std::distance(_first, _last));
+
+            internal_rangeInit(_first, _last, back_inserter(*this));
+            return *this;
+        }
+        basic_string& append(std::initializer_list<CharT> _ilist)
+        {
+            assert_count_in_range(size() + std::distance(_ilist.begin(), _ilist.end()));
+
+            internal_rangeInit(_ilist.begin(), _ilist.end(), back_inserter(*this));
+            return *this;
+        }
+
+        basic_string& operator+=(const basic_string& _str)
+        {
+            return append(_str);
+        }
+        basic_string& operator+=(CharT _ch)
+        {
+            push_back(_ch);
+            return *this;
+        }
+        basic_string& operator+=(const CharT* _s)
+        {
+            return append(_s);
+        }
+        basic_string& operator+=(std::initializer_list<CharT> _ilist)
+        {
+            return append(_ilist);
+        }
+
         int compare(const basic_string& _str) const noexcept
         {
             //https://en.cppreference.com/w/cpp/string/char_traits
@@ -343,7 +418,6 @@ class basic_string<CharT, Traits>
                 }
                 else
                 {
-                    //ToDo: Pop_Back / Pop_Front depends on distance to begin() / end()
                     static_cast<void>(std::rotate(to_iterator(_first), to_iterator(_last), end())); //LCOV_EXCL_BR_LINE: We are not testing std::rotate branches
                     std::for_each(std::make_reverse_iterator(_last), std::make_reverse_iterator(_first), back_destroyer(*this)); //LCOV_EXCL_BR_LINE: We are not testing std::for_each branches
                     return to_iterator(_first);
@@ -439,7 +513,7 @@ class basic_string<CharT, Traits>
         {
             DEQUE_ASSERT(!empty());
         }
-        
+
         void assert_space_left() const noexcept
         {
             BASIC_STRING_ASSERT(!full());

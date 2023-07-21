@@ -121,29 +121,29 @@ void Test_Constructors(void)
     TEST_ASSERT_EQUAL_STRING(s1.c_str(), "s4");
 
     // test appends
-    // s1 += "abc";
-    // CHECK_STR(s1.c_str(), "s4abc");
-    // s1 += 'd';
-    // CHECK_STR(s1.c_str(), "s4abcd");
-    // s1 += s4;
-    // CHECK_STR(s1.c_str(), "s4abcds4");
-    // s1 = "A";
-    // s1.append("BC");
-    // CHECK_STR(s1.c_str(), "ABC");
-    // s1.append(1, 'D');
-    // CHECK_STR(s1.c_str(), "ABCD");
-    // s1.append(s4);
-    // CHECK_STR(s1.c_str(), "ABCDs4");
-    // CHECK_STR((s4 + s5).c_str(), "s4s5");
-    // CHECK_STR((s4 + "s5").c_str(), "s4s5");
-    // CHECK_STR(("s4" + s5).c_str(), "s4s5");
-    // CHECK_STR((s4 + '5').c_str(), "s45");
-    // CHECK_STR(('4' + s5).c_str(), "4s5");
+    s1 += "abc";
+    TEST_ASSERT_EQUAL_STRING(s1.c_str(), "s4abc");
+    s1 += 'd';
+    TEST_ASSERT_EQUAL_STRING(s1.c_str(), "s4abcd");
+    s1 += s4;
+    TEST_ASSERT_EQUAL_STRING(s1.c_str(), "s4abcds4");
+    s1 = "A";
+    s1.append("BC");
+    TEST_ASSERT_EQUAL_STRING(s1.c_str(), "ABC");
+    s1.append(1, 'D');
+    TEST_ASSERT_EQUAL_STRING(s1.c_str(), "ABCD");
+    s1.append(s4);
+    TEST_ASSERT_EQUAL_STRING(s1.c_str(), "ABCDs4");
+    // TEST_ASSERT_EQUAL_STRING((s4 += s5).c_str(), "s4s5");
+    // TEST_ASSERT_EQUAL_STRING((s4 += "s5").c_str(), "s4s5");
+    // TEST_ASSERT_EQUAL_STRING(("s4" + s5).c_str(), "s4s5");
+    // TEST_ASSERT_EQUAL_STRING((s4 + '5').c_str(), "s45");
+    // TEST_ASSERT_EQUAL_STRING(('4' + s5).c_str(), "4s5");
 
-    // CHECK(s4 + "more" == STD string("s4more"));
-    // CHECK("more" + s4 == STD string("mores4"));
-    // CHECK(s4 + '+' == STD string("s4+"));
-    // CHECK('+' + s4 == STD string("+s4"));
+    // TEST_ASSERT_TRUE((s4 += "more") == string<STRING_SIZE>("s4more"));
+    // TEST_ASSERT_TRUE("more" + s4 == string<STRING_SIZE>("mores4"));
+    // TEST_ASSERT_TRUE(s4 + '+' == string<STRING_SIZE>("s4+"));
+    // TEST_ASSERT_TRUE('+' + s4 == string<STRING_SIZE>("+s4"));
 
     // test inserts
     s1 = "abc";
