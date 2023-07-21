@@ -731,5 +731,108 @@ bool operator==(const basic_string<CharT>& _lhs,
 {
     return ((_lhs.size() == _rhs.size()) && std::equal(_lhs.cbegin(), _lhs.cend(), _rhs.cbegin()));
 }
+template<class CharT>
+bool operator!=(const basic_string<CharT>& _lhs,
+                const basic_string<CharT>& _rhs) noexcept
+{
+    return !(_lhs == _rhs);
+}
+template<class CharT>
+bool operator<(const basic_string<CharT>& _lhs,
+               const basic_string<CharT>& _rhs) noexcept
+{
+    return std::lexicographical_compare(_lhs.begin(), _lhs.end(), _rhs.begin(), _rhs.end());
+}
+template<class CharT>
+bool operator<=(const basic_string<CharT>& _lhs,
+                const basic_string<CharT>& _rhs) noexcept
+{
+    return !(_rhs < _lhs);
+}
+template<class CharT>
+bool operator>(const basic_string<CharT>& _lhs,
+               const basic_string<CharT>& _rhs) noexcept
+{
+    return (_rhs < _lhs);
+}
+template<class CharT>
+bool operator>=(const basic_string<CharT>& _lhs,
+                const basic_string<CharT>& _rhs) noexcept
+{
+    return !(_lhs < _rhs);
+}
+
+template<class CharT>
+bool operator==(const basic_string<CharT>& _lhs,
+                const CharT*               _rhs) noexcept
+{
+    return ((_lhs.size() == basic_string<CharT>::traits_type::length(_rhs)) && std::equal(_lhs.cbegin(), _lhs.cend(), &_rhs[0]));
+}
+template<class CharT>
+bool operator==(const CharT*               _lhs,
+                const basic_string<CharT>& _rhs) noexcept
+{
+    return operator==(_rhs, _lhs);
+}
+template<class CharT>
+bool operator!=(const basic_string<CharT>& _lhs,
+                const CharT*               _rhs) noexcept
+{
+    return !(_lhs == _rhs);
+}
+template<class CharT>
+bool operator!=(const CharT*               _lhs,
+                const basic_string<CharT>& _rhs) noexcept
+{
+    return !(_rhs == _lhs);
+}
+template<class CharT>
+bool operator<(const basic_string<CharT>& _lhs,
+               const CharT*               _rhs) noexcept
+{
+    return std::lexicographical_compare(_lhs.begin(), _lhs.end(), &_rhs[0], &_rhs[basic_string<CharT>::traits_type::length(_rhs)]);
+}
+template<class CharT>
+bool operator<(const CharT*               _lhs,
+               const basic_string<CharT>& _rhs) noexcept
+{
+    return !operator<(_rhs, _lhs);
+}
+template<class CharT>
+bool operator<=(const basic_string<CharT>& _lhs,
+                const CharT*               _rhs) noexcept
+{
+    return !(_rhs < _lhs);
+}
+template<class CharT>
+bool operator<=(const CharT*               _lhs,
+                const basic_string<CharT>& _rhs) noexcept
+{
+    return !(_rhs < _lhs);
+}
+template<class CharT>
+bool operator>(const basic_string<CharT>&  _lhs,
+                const CharT*               _rhs) noexcept
+{
+    return (_rhs < _lhs);
+}
+template<class CharT>
+bool operator>(const CharT*                _lhs,
+                const basic_string<CharT>& _rhs) noexcept
+{
+    return (_rhs < _lhs);
+}
+template<class CharT>
+bool operator>=(const basic_string<CharT>& _lhs,
+                const CharT*               _rhs) noexcept
+{
+    return !(_lhs < _rhs);
+}
+template<class CharT>
+bool operator>=(const CharT*               _lhs,
+                const basic_string<CharT>& _rhs) noexcept
+{
+    return !(_lhs < _rhs);
+}
 
 }

@@ -257,26 +257,26 @@ void Test_Constructors(void)
     TEST_ASSERT_TRUE(s1.compare(0, 4, "s44", 1) != 0);
     // TEST_ASSERT_TRUE(s1.compare(1, 4, "s4xx", 0, 2) != 0);
 
-    // CHECK(s1 == s1);
-    // CHECK(s1 == "s4s4");
-    // CHECK("s4" == s4);
-    // CHECK(s1 != s4);
-    // CHECK(s1 != "xx");
-    // CHECK("s4" != s1);
+    TEST_ASSERT_TRUE(s1 == s1);
+    TEST_ASSERT_TRUE(s1 == "s4s4");
+    TEST_ASSERT_TRUE("s4" == s4);
+    TEST_ASSERT_TRUE(s1 != s4);
+    TEST_ASSERT_TRUE(s1 != "xx");
+    TEST_ASSERT_TRUE("s4" != s1);
 
-    // CHECK(s4 < s1);
-    // CHECK(s4 < "s5");
-    // CHECK("s3" < s4);
-    // CHECK(s4 <= s1);
-    // CHECK(s4 <= "s5");
-    // CHECK("s3" <= s4);
+    TEST_ASSERT_TRUE(s4 < s1);
+    TEST_ASSERT_TRUE(s4 < "s5");
+    TEST_ASSERT_TRUE("s3" < s4);
+    TEST_ASSERT_TRUE(s4 <= s1);
+    TEST_ASSERT_TRUE(s4 <= "s5");
+    TEST_ASSERT_TRUE("s3" <= s4);
 
-    // CHECK(s1 > s4);
-    // CHECK("s5" > s4);
-    // CHECK(s4 > "s3");
-    // CHECK(s1 >= s4);
-    // CHECK("s5" >= s4);
-    // CHECK(s4 >= "s3");
+    TEST_ASSERT_TRUE(s1 > s4);
+    TEST_ASSERT_TRUE("s5" > s4);
+    TEST_ASSERT_TRUE(s4 > "s3");
+    TEST_ASSERT_TRUE(s1 >= s4);
+    TEST_ASSERT_TRUE("s5" >= s4);
+    TEST_ASSERT_TRUE(s4 >= "s3");
 
 
     //Test hash compatibility
