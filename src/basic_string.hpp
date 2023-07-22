@@ -87,7 +87,11 @@ class basic_string<CharT, Traits>
         
         basic_string& assign(basic_string&& _other)
         { 
-            (void) _other;
+            clear();
+            internal_rangeInit(std::make_move_iterator(_other.begin()), 
+                               std::make_move_iterator(_other.end()), 
+                               back_inserter(*this));
+            _other.clear();
             return *this;
         }
         
