@@ -840,7 +840,7 @@ class basic_string<CharT, Traits>
 
         void assert_space_left() const noexcept
         {
-            BASIC_STRING_ASSERT(!full());
+            BASIC_STRING_ASSERT(!(size() == max_size()));
         }
 
         void assert_count_in_range(size_type _count) const noexcept
