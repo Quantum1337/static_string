@@ -180,7 +180,7 @@ void Test_Constructors(void)
     TEST_ASSERT_EQUAL_CHAR_ARRAY(buf, "12X", 3);
     TEST_ASSERT_EQUAL(s1.copy(buf, string<>::npos, 1), 4);
     TEST_ASSERT_EQUAL_CHAR_ARRAY(buf, "12XX", 4);
-
+    
     // // test finds
     s1 = "s4s4";
     TEST_ASSERT_EQUAL(s1.find(s4), 0);
