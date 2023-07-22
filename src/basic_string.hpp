@@ -30,6 +30,8 @@ class basic_string<CharT, Traits>
         using reverse_iterator = std::reverse_iterator<Implementation::base_iterator<value_type, basic_string>>;
         using const_reverse_iterator = std::reverse_iterator<Implementation::base_iterator<value_type const, basic_string>>;
 
+        static const size_type npos = -1;
+
         // -- Assignment operator
         basic_string& operator=(const basic_string& _other)
         {
@@ -423,6 +425,135 @@ class basic_string<CharT, Traits>
                                      &_s[0], 
                                      &_s[0] + _count2);
         }
+
+        basic_string& replace(size_type _pos, size_type _count, const basic_string& _str)
+        {
+            assert_access_in_range(_pos);
+
+            size_type count = std::min(_count, size() - _pos);
+
+            unchecked_erase(begin() + _pos, begin() + (_pos + count));
+            unchecked_insert_it(begin() + _pos, _str.begin(), _str.end());
+
+            return *this;
+        }
+        basic_string& replace(const_iterator _first, const_iterator _last, const basic_string& _str)
+        {
+            assert_valid_iterator_pair(_first, _last);
+
+            unchecked_erase(_first, _last);
+            unchecked_insert_it(_first, _str.begin(), _str.end());
+
+            return *this;
+        }
+        basic_string& replace(size_type _pos, size_type _count,
+                              const basic_string& _str,
+                              size_type _pos2, size_type _count2 = npos)
+        {
+            assert_access_in_range(_pos);
+            // assert_access_in_range(_pos2);
+
+            size_type count = std::min(_count , size() - _pos);
+            size_type count2 = std::min(_count2, _str.size() - _pos2);
+
+            unchecked_erase(begin() + _pos, begin() + (_pos + count));
+            unchecked_insert_it(begin() + _pos, _str.begin() + _pos2, _str.begin() + (_pos2 + count2));
+
+            return *this;
+        }
+        basic_string& replace(size_type _pos, size_type _count,
+                              const CharT* _s, size_type _count2 )
+        {
+            assert_access_in_range(_pos);
+
+            size_type count = std::min(_count , size() - _pos);
+
+            unchecked_erase(begin() + _pos, begin() + (_pos + count));
+            unchecked_insert_it(begin() + _pos, &_s[0], &_s[_count2]);
+
+            return *this;
+        }
+        basic_string& replace(const_iterator _first, const_iterator _last,
+                              const CharT* _s, size_type _count2)
+        {
+            assert_valid_iterator_pair(_first, _last);
+
+            unchecked_erase(_first, _last);
+            unchecked_insert_it(_first, &_s[0], &_s[_count2]);
+
+            return *this;          
+        }
+        basic_string& replace(size_type _pos, size_type _count, const CharT* _s)
+        {
+            assert_access_in_range(_pos);
+
+            size_type count = std::min(_count , size() - _pos);
+            size_type len = internal_strlen(_s);
+
+            unchecked_erase(begin() + _pos, begin() + (_pos + count));
+            unchecked_insert_it(begin() + _pos, &_s[0], &_s[len]);
+
+            return *this;        
+        }
+        basic_string& replace(const_iterator _first, const_iterator _last,
+                              const CharT* _s)
+        {
+            assert_valid_iterator_pair(_first, _last);
+
+            size_type len = internal_strlen(_s);
+
+            unchecked_erase(_first, _last);
+            unchecked_insert_it(_first, &_s[0], &_s[len]);
+
+            return *this;   
+        }
+        basic_string& replace(size_type _pos, size_type _count,
+                              size_type _count2, CharT _ch)
+        {
+            assert_access_in_range(_pos);
+
+            size_type count = std::min(_count , size() - _pos);
+
+            unchecked_erase(begin() + _pos, begin() + (_pos + count));
+            unchecked_insert_value(begin() + _pos, _count2, _ch);          
+
+            return *this;
+        }
+        basic_string& replace(const_iterator _first, const_iterator _last,
+                              size_type _count2, CharT _ch)
+        {
+            assert_valid_iterator_pair(_first, _last);
+
+            unchecked_erase(_first, _last);
+            unchecked_insert_value(_first, _count2, _ch);          
+
+            return *this;
+        }
+        template< class InputIt >
+        basic_string& replace(const_iterator _first, const_iterator _last,
+                              InputIt _first2, InputIt _last2)
+        {
+            assert_valid_iterator_pair(_first, _last);
+            assert_valid_iterator_pair(_first2, _last2);
+
+            unchecked_erase(_first, _last);
+            unchecked_insert_it(_first, _first2, _last2);   
+
+            return *this;        
+        }
+        basic_string& replace(const_iterator _first, const_iterator _last,
+                              std::initializer_list<CharT> _ilist)
+        {
+            assert_valid_iterator_pair(_first, _last);
+            assert_valid_iterator_pair(_ilist.begin(), _ilist.end());
+
+            unchecked_erase(_first, _last);
+            unchecked_insert_it(_first, _ilist.begin(), _ilist.end());   
+
+            return *this;               
+        }
+
+
         size_type copy(CharT* _dest, size_type _count, size_type _pos = 0) const
         {
             assert_access_in_range(_pos);
