@@ -171,13 +171,15 @@ void Test_Constructors(void)
     // s1.replace(2, 1, s4);
     // CHECK_STR(s1.c_str(), "01s4456789");
 
-    // // test copy
-    // char buf[10];
-    // s1 = "012XX";
-    // CHECK_SIZE_T(s1.copy(buf, sizeof(buf)), 5);
-    // CHECK_MEM(buf, "012XX", 5);
-    // CHECK_SIZE_T(s1.copy(buf, 3, 1), 3);
-    // CHECK_MEM(buf, "12X", 3);
+    // test copy
+    char buf[10];
+    s1 = "012XX";
+    TEST_ASSERT_EQUAL(s1.copy(buf, sizeof(buf)), 5);
+    TEST_ASSERT_EQUAL_CHAR_ARRAY(buf, "012XX", 5);
+    TEST_ASSERT_EQUAL(s1.copy(buf, 3, 1), 3);
+    TEST_ASSERT_EQUAL_CHAR_ARRAY(buf, "12X", 3);
+    TEST_ASSERT_EQUAL(s1.copy(buf, string<>::npos, 1), 4);
+    TEST_ASSERT_EQUAL_CHAR_ARRAY(buf, "12XX", 4);
 
     // // test finds
     s1 = "s4s4";
