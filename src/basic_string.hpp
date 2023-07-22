@@ -423,6 +423,35 @@ class basic_string<CharT, Traits>
                                      &_s[0], 
                                      &_s[0] + _count2);
         }
+        size_type find(const basic_string& _str, size_type _pos = 0) const
+        {
+            return unchecked_find(begin() + _pos, end(), _str.begin(), _str.end(), _pos + _str.size());
+        }
+        size_type find(const CharT* _s, size_type _pos, size_type _count) const
+        {
+            size_type len = internal_strlen(_s);
+
+            return unchecked_find(begin() + _pos, end(), &_s[0], &_s[_count], (_pos + len) - _count);
+        }
+        size_type find(const CharT* _s, size_type _pos = 0) const
+        {
+            size_type len = internal_strlen(_s);
+
+            return unchecked_find(begin() + _pos, end(), &_s[0], &_s[len], (_pos + len));
+        }
+        size_type find(CharT _ch, size_type _pos = 0) const noexcept
+        {
+            const_iterator it = std::find(begin() + _pos, end(), _ch);
+
+            if (it != end())
+            {
+                return std::distance(begin(), it);
+            }
+            else
+            {
+                return npos;
+            }
+        }
         // basic_string substr(size_type _pos /*= 0*/, size_type _count /*npos*/) const
         // {
         //     return basic_string<50>(*this, _pos, _count);
@@ -455,6 +484,23 @@ class basic_string<CharT, Traits>
                 return 1;
             }
             
+        }
+
+        template<typename InputIt1, typename InputIt2>
+        size_type unchecked_find(const InputIt1 _first1, const InputIt1 _last1, const InputIt2 _first2, const InputIt2 _last2, size_type _subStrLength) const
+        {
+            if (_subStrLength > size()) { return npos; }
+
+            const_iterator itPos = std::search(_first1, _last1, _first2, _last2);
+
+            if (itPos == _last1)
+            {
+                return npos;
+            }
+            else
+            {
+                return std::distance(begin(), itPos);
+            }
         }
 
         iterator unchecked_erase(const_iterator _first, const_iterator _last)
