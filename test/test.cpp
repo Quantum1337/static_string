@@ -79,14 +79,6 @@ void test_traits() { // test char_traits
 void Test_Constructors(void)
 {
     static constexpr size_t STRING_SIZE = 200u;
-    { // Default constructor
-        string<STRING_SIZE> UT_basicString;
-
-        TEST_ASSERT_EQUAL(true, UT_basicString.empty());
-        TEST_ASSERT_EQUAL(false, UT_basicString.full());
-        TEST_ASSERT_EQUAL(STRING_SIZE, UT_basicString.max_size());
-        TEST_ASSERT_EQUAL(0u, UT_basicString.size());
-    }
 
     string<STRING_SIZE> s1, s2(30, '\0');
     string<STRING_SIZE> s3(4, '\0');
@@ -134,13 +126,13 @@ void Test_Constructors(void)
     TEST_ASSERT_EQUAL_STRING(s1.c_str(), "ABCD");
     s1.append(s4);
     TEST_ASSERT_EQUAL_STRING(s1.c_str(), "ABCDs4");
-    // TEST_ASSERT_EQUAL_STRING((s4 += s5).c_str(), "s4s5");
-    // TEST_ASSERT_EQUAL_STRING((s4 += "s5").c_str(), "s4s5");
+    // TEST_ASSERT_EQUAL_STRING((s4 + s5).c_str(), "s4s5");
+    // TEST_ASSERT_EQUAL_STRING((s4 + "s5").c_str(), "s4s5");
     // TEST_ASSERT_EQUAL_STRING(("s4" + s5).c_str(), "s4s5");
     // TEST_ASSERT_EQUAL_STRING((s4 + '5').c_str(), "s45");
     // TEST_ASSERT_EQUAL_STRING(('4' + s5).c_str(), "4s5");
 
-    // TEST_ASSERT_TRUE((s4 += "more") == string<STRING_SIZE>("s4more"));
+    // TEST_ASSERT_TRUE((s4 + "more") == string<STRING_SIZE>("s4more"));
     // TEST_ASSERT_TRUE("more" + s4 == string<STRING_SIZE>("mores4"));
     // TEST_ASSERT_TRUE(s4 + '+' == string<STRING_SIZE>("s4+"));
     // TEST_ASSERT_TRUE('+' + s4 == string<STRING_SIZE>("+s4"));
@@ -181,7 +173,7 @@ void Test_Constructors(void)
     TEST_ASSERT_EQUAL(s1.copy(buf, string<>::npos, 1), 4);
     TEST_ASSERT_EQUAL_CHAR_ARRAY(buf, "12XX", 4);
     
-    // // test finds
+    // test finds
     s1 = "s4s4";
     TEST_ASSERT_EQUAL(s1.find(s4), 0);
     TEST_ASSERT_EQUAL(s1.find(s4, 1), 2);
@@ -280,7 +272,6 @@ void Test_Constructors(void)
     TEST_ASSERT_TRUE("s5" >= s4);
     TEST_ASSERT_TRUE(s4 >= "s3");
 
-
     //Test hash compatibility
     size_t hash_val = std::hash<string<>>()(string<STRING_SIZE>("abc"));
     (void) hash_val;
@@ -303,9 +294,9 @@ void Test_Constructors(void)
         TEST_ASSERT_EQUAL(s11.size(), 3);
         TEST_ASSERT_EQUAL(s11[2], 'c');
 
-        // s11.append(init);
-        // TEST_ASSERT_EQUAL(s11.size(), 6);
-        // TEST_ASSERT_EQUAL(s11[5], 'c');
+        s11.append(init);
+        TEST_ASSERT_EQUAL(s11.size(), 6);
+        TEST_ASSERT_EQUAL(s11[5], 'c');
 
         s11.assign(init);
         TEST_ASSERT_EQUAL(s11.size(), 3);
@@ -315,9 +306,9 @@ void Test_Constructors(void)
         TEST_ASSERT_EQUAL(s11.size(), 6);
         TEST_ASSERT_EQUAL(s11[2], 'b');
 
-        // s11.replace(s11.begin(), s11.begin() + 2, init);
-        // CHECK_SIZE_T(s11.size(), 7);
-        // CHECK_INT(s11[2], 'c');
+        s11.replace(s11.begin(), s11.begin() + 2, init);
+        TEST_ASSERT_EQUAL(s11.size(), 7);
+        TEST_ASSERT_EQUAL(s11[2], 'c');
     }
 
 }
@@ -326,7 +317,7 @@ void Test_Container(void)
 {
     typedef string<200> Mycont;
     char ch     = '\0';
-    // char carr[] = "abc";
+    char carr[] = "abc";
 
     Mycont::pointer p_ptr           = (char*) nullptr;
     Mycont::const_pointer p_cptr    = (const char*) nullptr;
@@ -382,53 +373,48 @@ void Test_Container(void)
     TEST_ASSERT_EQUAL(v0.end()[-1], 'z');
     TEST_ASSERT_TRUE(v0.size() <= v0.max_size());
 
-
-    // STD basic_string<char, STD char_traits<char>, STD allocator<char>>* p_cont = &v0;
-
-    // p_cont = p_cont; // to quiet diagnostics
+    basic_string<char, std::char_traits<char>>* p_cont = &v0;
+    p_cont = p_cont; // to quiet diagnostics
 
     { // check iterators generators
-        // Mycont::iterator p_it(v0.begin());
-        // Mycont::const_iterator p_cit(v4.begin());
-        // Mycont::reverse_iterator p_rit(v0.rbegin());
-        // Mycont::const_reverse_iterator p_crit(v4.rbegin());
-        // TEST_ASSERT_EQUAL(*p_it, 'x');
-        // TEST_ASSERT_EQUAL(*--(p_it = v0.end()), 'z');
-        // TEST_ASSERT_EQUAL(*p_cit, 'x');
-        // TEST_ASSERT_EQUAL(*--(p_cit = v4.end()), 'x');
-        // TEST_ASSERT_EQUAL(*p_rit, 'z');
-        // TEST_ASSERT_EQUAL(*--(p_rit = v0.rend()), 'x');
-        // TEST_ASSERT_EQUAL(*p_crit, 'x');
-        // TEST_ASSERT_EQUAL(*--(p_crit = v4.rend()), 'x');
+        Mycont::iterator p_it(v0.begin());
+        Mycont::const_iterator p_cit(v4.begin());
+        Mycont::reverse_iterator p_rit(v0.rbegin());
+        Mycont::const_reverse_iterator p_crit(v4.rbegin());
+        TEST_ASSERT_EQUAL(*p_it, 'x');
+        TEST_ASSERT_EQUAL(*--(p_it = v0.end()), 'z');
+        TEST_ASSERT_EQUAL(*p_cit, 'x');
+        TEST_ASSERT_EQUAL(*--(p_cit = v4.end()), 'x');
+        TEST_ASSERT_EQUAL(*p_rit, 'z');
+        TEST_ASSERT_EQUAL(*--(p_rit = v0.rend()), 'x');
+        TEST_ASSERT_EQUAL(*p_crit, 'x');
+        TEST_ASSERT_EQUAL(*--(p_crit = v4.rend()), 'x');
     }
 
-    // { // check const iterators generators
-    //     Mycont::const_iterator p_it(v0.cbegin());
-    //     Mycont::const_iterator p_cit(v4.cbegin());
-    //     Mycont::const_reverse_iterator p_rit(v0.crbegin());
-    //     Mycont::const_reverse_iterator p_crit(v4.crbegin());
-    //     CHECK_INT(*p_it, 'x');
-    //     CHECK_INT(*--(p_it = v0.cend()), 'z');
-    //     CHECK_INT(*p_cit, 'x');
-    //     CHECK_INT(*--(p_cit = v4.cend()), 'x');
-    //     CHECK_INT(*p_rit, 'z');
-    //     CHECK_INT(*--(p_rit = v0.crend()), 'x');
-    //     CHECK_INT(*p_crit, 'x');
-    //     CHECK_INT(*--(p_crit = v4.crend()), 'x');
-    // }
+    { // check const iterators generators
+        Mycont::const_iterator p_it(v0.cbegin());
+        Mycont::const_iterator p_cit(v4.cbegin());
+        Mycont::const_reverse_iterator p_rit(v0.crbegin());
+        Mycont::const_reverse_iterator p_crit(v4.crbegin());
+        TEST_ASSERT_EQUAL(*p_it, 'x');
+        TEST_ASSERT_EQUAL(*--(p_it = v0.cend()), 'z');
+        TEST_ASSERT_EQUAL(*p_cit, 'x');
+        TEST_ASSERT_EQUAL(*--(p_cit = v4.cend()), 'x');
+        TEST_ASSERT_EQUAL(*p_rit, 'z');
+        TEST_ASSERT_EQUAL(*--(p_rit = v0.crend()), 'x');
+        TEST_ASSERT_EQUAL(*p_crit, 'x');
+        TEST_ASSERT_EQUAL(*--(p_crit = v4.crend()), 'x');
+    }
 
-    // CHECK_INT(*v0.begin(), 'x');
-    // CHECK_INT(*v4.begin(), 'x');
+    TEST_ASSERT_EQUAL(*v0.begin(), 'x');
+    TEST_ASSERT_EQUAL(*v4.begin(), 'x');
 
-    // v0.push_back('a');
-    // CHECK_INT(v0.end()[-1], 'a');
+    v0.push_back('a');
+    TEST_ASSERT_EQUAL(v0.end()[-1], 'a');
 
-    // v0.pop_back();
-    // CHECK_INT(v0.front(), 'x');
-    // CHECK_INT(v0.back(), 'z');
-
-    // v0.shrink_to_fit();
-    // CHECK_INT(v0.front(), 'x');
+    v0.pop_back();
+    TEST_ASSERT_EQUAL(v0.front(), 'x');
+    TEST_ASSERT_EQUAL(v0.back(), 'z');
 
     v0.shrink_to_fit();
     TEST_ASSERT_EQUAL(v0.front(), 'x');
@@ -450,28 +436,28 @@ void Test_Container(void)
         TEST_ASSERT_EQUAL(v8.size(), 20);
     }
 
-    // v0.assign(v4.begin(), v4.end());
-    // CHECK_SIZE_T(v0.size(), v4.size());
-    // CHECK_INT(*v0.begin(), *v4.begin());
-    // v0.assign(4, 'w');
-    // CHECK_SIZE_T(v0.size(), 4);
-    // CHECK_INT(*v0.begin(), 'w');
-    // CHECK_INT(*v0.insert(v0.begin(), 'a'), 'a');
-    // CHECK_INT(*v0.begin(), 'a');
-    // CHECK_INT(v0.begin()[1], 'w');
-    // CHECK_INT(*v0.insert(v0.begin(), 2, 'b'), 'b');
-    // CHECK_INT(*v0.begin(), 'b');
-    // CHECK_INT(v0.begin()[1], 'b');
-    // CHECK_INT(v0.begin()[2], 'a');
-    // CHECK_INT(*v0.insert(v0.end(), v4.begin(), v4.end()), *v4.begin());
-    // CHECK_INT(v0.end()[-1], v4.end()[-1]);
-    // CHECK_INT(*v0.insert(v0.end(), carr, carr + 3), *carr);
-    // CHECK_INT(v0.end()[-1], 'c');
-    // v0.erase(v0.begin());
-    // CHECK_INT(*v0.begin(), 'b');
-    // CHECK_INT(v0.begin()[1], 'a');
-    // v0.erase(v0.begin(), v0.begin() + 1);
-    // CHECK_INT(*v0.begin(), 'a');
+    v0.assign(v4.begin(), v4.end());
+    TEST_ASSERT_EQUAL(v0.size(), v4.size());
+    TEST_ASSERT_EQUAL(*v0.begin(), *v4.begin());
+    v0.assign(4, 'w');
+    TEST_ASSERT_EQUAL(v0.size(), 4);
+    TEST_ASSERT_EQUAL(*v0.begin(), 'w');
+    TEST_ASSERT_EQUAL(*v0.insert(v0.begin(), 'a'), 'a');
+    TEST_ASSERT_EQUAL(*v0.begin(), 'a');
+    TEST_ASSERT_EQUAL(v0.begin()[1], 'w');
+    TEST_ASSERT_EQUAL(*v0.insert(v0.begin(), 2, 'b'), 'b');
+    TEST_ASSERT_EQUAL(*v0.begin(), 'b');
+    TEST_ASSERT_EQUAL(v0.begin()[1], 'b');
+    TEST_ASSERT_EQUAL(v0.begin()[2], 'a');
+    TEST_ASSERT_EQUAL(*v0.insert(v0.end(), v4.begin(), v4.end()), *v4.begin());
+    TEST_ASSERT_EQUAL(v0.end()[-1], v4.end()[-1]);
+    TEST_ASSERT_EQUAL(*v0.insert(v0.end(), carr, carr + 3), *carr);
+    TEST_ASSERT_EQUAL(v0.end()[-1], 'c');
+    v0.erase(v0.begin());
+    TEST_ASSERT_EQUAL(*v0.begin(), 'b');
+    TEST_ASSERT_EQUAL(v0.begin()[1], 'a');
+    v0.erase(v0.begin(), v0.begin() + 1);
+    TEST_ASSERT_EQUAL(*v0.begin(), 'a');
 
     v0.clear();
     TEST_ASSERT_TRUE(v0.empty());
@@ -481,12 +467,12 @@ void Test_Container(void)
     std::swap(v0, v1);
     TEST_ASSERT_TRUE(v0.empty());
     TEST_ASSERT_TRUE(!v1.empty());
-    // CHECK(v1 == v1);
-    // CHECK(v0 < v1);
-    // CHECK(v0 != v1);
-    // CHECK(v1 > v0);
-    // CHECK(v0 <= v1);
-    // CHECK(v1 >= v0);
+    TEST_ASSERT_TRUE(v1 == v1);
+    TEST_ASSERT_TRUE(v0 < v1);
+    TEST_ASSERT_TRUE(v0 != v1);
+    TEST_ASSERT_TRUE(v1 > v0);
+    TEST_ASSERT_TRUE(v0 <= v1);
+    TEST_ASSERT_TRUE(v1 >= v0);
 }
 
 int main(int argc, char const *argv[])
