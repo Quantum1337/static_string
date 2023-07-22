@@ -179,7 +179,7 @@ class basic_string<CharT, Traits>
         size_type capacity() const noexcept { return m_capacity; }
         void shrink_to_fit() { /* It is a non-binding request to reduce capacity() to size(). Doing nothing */ };
 
-        //- Operations
+        // -- Operations
         void clear() noexcept
         {
             m_pos = m_begin;
