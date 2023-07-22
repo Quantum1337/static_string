@@ -587,6 +587,11 @@ class basic_string<CharT, Traits>
             unchecked_resize(_count, _ch);
         }
 
+        void swap(basic_string& _other) noexcept
+        {
+            internal_swap(_other);
+        }
+
         size_type find(const basic_string& _str, size_type _pos = 0) const
         {
             return unchecked_find(begin() + _pos, end(), _str.begin(), _str.end(), _pos + _str.size());
@@ -775,6 +780,31 @@ class basic_string<CharT, Traits>
             (void) std::copy(_first, _last, _output);
         }
         
+        void internal_swap(basic_string& _other) noexcept
+        {
+            if(size() < _other.size())
+            {
+                iterator pos = std::swap_ranges(begin(), end(), _other.begin());
+
+                assert_count_in_range(size() + std::distance(pos, _other.end()));
+                unchecked_insert_it(cend(), 
+                                    std::make_move_iterator(pos), 
+                                    std::make_move_iterator(_other.end()));
+
+                _other.erase(pos, _other.cend());
+            }
+            else
+            {
+                iterator pos = std::swap_ranges(_other.begin(), _other.end(), begin());
+
+                _other.insert(_other.cend(), 
+                              std::make_move_iterator(pos), 
+                              std::make_move_iterator(end()));
+
+                unchecked_erase(pos, cend());
+            }
+        }
+
         void unchecked_push_back_count(size_type _count, CharT _ch)
         {
             while (_count != 0)
@@ -955,6 +985,11 @@ class basic_string : public basic_string<CharT, Traits>
             return *this;
         }
 
+        void swap(basic_string& _other) noexcept
+        {
+            this->internal_swap(_other);
+        }
+
     private:
 
         std::array<CharT, Size> m_storage;
@@ -1068,6 +1103,13 @@ bool operator>=(const CharT*               _lhs,
                 const basic_string<CharT>& _rhs) noexcept
 {
     return !(_lhs < _rhs);
+}
+
+template<typename CharT>
+void swap(basic_string<CharT>& _lhs,
+          basic_string<CharT>& _rhs) noexcept
+{
+    _lhs.swap(_rhs);
 }
 
 }
