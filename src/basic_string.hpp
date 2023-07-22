@@ -296,7 +296,7 @@ class basic_string<CharT, Traits>
         {
             assert_has_elements();
 
-            erase(end() - 1);
+            unchecked_pop_back();
         }
 
         basic_string& append(size_type _count, CharT _ch)
@@ -557,6 +557,11 @@ class basic_string<CharT, Traits>
         {
             *m_pos = _ch;
             ++m_pos;
+        }
+
+        void unchecked_pop_back()
+        {
+            --m_pos;
         }
 
         iterator to_iterator(const_iterator _iterator) noexcept
