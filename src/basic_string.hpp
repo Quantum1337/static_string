@@ -934,7 +934,8 @@ class basic_string : public basic_string<CharT, Traits>
             this->internal_rangeInit(_first, _last, this->back_inserter(*this));
         }
 
-        basic_string(const basic_string& _other)
+        basic_string(basic_string const& _other) : basic_string(static_cast<base const&>(_other)) {}
+        basic_string(base const& _other)  
         : basic_string()
         {
             this->internal_rangeInit(_other.begin(), _other.end(), this->back_inserter(*this));
