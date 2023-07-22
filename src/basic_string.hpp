@@ -162,13 +162,13 @@ class basic_string<CharT, Traits>
         const_iterator end() const noexcept { return m_pos; };
         const_iterator cend() const noexcept { return m_pos; };
 
-        reverse_iterator rbegin() noexcept { return reverse_iterator(m_begin); };
-        const_reverse_iterator rbegin() const noexcept { return const_reverse_iterator(m_begin); };
-        const_reverse_iterator crbegin() const noexcept { return const_reverse_iterator(m_begin); };
+        reverse_iterator rbegin() noexcept { return reverse_iterator(m_pos); };
+        const_reverse_iterator rbegin() const noexcept { return const_reverse_iterator(m_pos); };
+        const_reverse_iterator crbegin() const noexcept { return const_reverse_iterator(m_pos); };
 
-        reverse_iterator rend() noexcept { return reverse_iterator(m_pos); };
-        const_reverse_iterator rend() const noexcept { return const_reverse_iterator(m_pos); };
-        const_reverse_iterator crend() const noexcept { return const_reverse_iterator(m_pos); };
+        reverse_iterator rend() noexcept { return reverse_iterator(m_begin); };
+        const_reverse_iterator rend() const noexcept { return const_reverse_iterator(m_begin); };
+        const_reverse_iterator crend() const noexcept { return const_reverse_iterator(m_begin); };
 
         // -- Capacity
         bool empty() const { return (m_begin == m_pos); };
