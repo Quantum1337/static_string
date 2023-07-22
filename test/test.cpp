@@ -159,17 +159,17 @@ void Test_Constructors(void)
     TEST_ASSERT_EQUAL_STRING(s1.c_str(), "sAaBbCcDdEEs4");
 
 
-    // // test replaces
-    // s1 = "";
-    // s1.replace((CSTD size_t) 0, (CSTD size_t) 0, "123ab789");
-    // s1.replace(3, 2, "45678", 3);
-    // CHECK_STR(s1.c_str(), "123456789");
-    // s1.replace(1, 3, "xx", 2);
-    // s1.replace((CSTD size_t) 0, (CSTD size_t) 0, "0");
-    // CHECK_STR(s1.c_str(), "01xx56789");
-    // s1.replace(3, 1, s4, 1, 1);
-    // s1.replace(2, 1, s4);
-    // CHECK_STR(s1.c_str(), "01s4456789");
+    // test replaces
+    s1 = "";
+    s1.replace((size_t) 0, (size_t) 0, "123ab789");
+    s1.replace(3, 2, "45678", 3);
+    TEST_ASSERT_EQUAL_STRING(s1.c_str(), "123456789");
+    s1.replace(1, 3, "xx", 2);
+    s1.replace((size_t) 0, (size_t) 0, "0");
+    TEST_ASSERT_EQUAL_STRING(s1.c_str(), "01xx56789");
+    s1.replace(3, 1, s4, 1, 1);
+    s1.replace(2, 1, s4);
+    TEST_ASSERT_EQUAL_STRING(s1.c_str(), "01s4456789");
 
     // test copy
     char buf[10];
