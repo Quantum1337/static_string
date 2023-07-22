@@ -181,15 +181,15 @@ void Test_Constructors(void)
 
     // // test finds
     s1 = "s4s4";
-    // CHECK_SIZE_T(s1.find(s4), 0);
-    // CHECK_SIZE_T(s1.find(s4, 1), 2);
-    // CHECK_SIZE_T(s1.find(s4, 3), STD string::npos);
-    // CHECK_SIZE_T(s1.find("s4"), 0);
-    // CHECK_SIZE_T(s1.find("s4", 3), STD string::npos);
-    // CHECK_SIZE_T(s1.find("s4XX", 1, 2), 2);
-    // CHECK_SIZE_T(s1.find('s'), 0);
-    // CHECK_SIZE_T(s1.find('s', 1), 2);
-    // CHECK_SIZE_T(s1.find('x'), STD string::npos);
+    TEST_ASSERT_EQUAL(s1.find(s4), 0);
+    TEST_ASSERT_EQUAL(s1.find(s4, 1), 2);
+    TEST_ASSERT_EQUAL(s1.find(s4, 3), string<>::npos);
+    TEST_ASSERT_EQUAL(s1.find("s4"), 0);
+    TEST_ASSERT_EQUAL(s1.find("s4", 3), string<>::npos);
+    TEST_ASSERT_EQUAL(s1.find("s4XX", 1, 2), 2);
+    TEST_ASSERT_EQUAL(s1.find('s'), 0);
+    TEST_ASSERT_EQUAL(s1.find('s', 1), 2);
+    TEST_ASSERT_EQUAL(s1.find('x'), string<>::npos);
 
     // CHECK_SIZE_T(s1.rfind(s4), 2);
     // CHECK_SIZE_T(s1.rfind(s4, 1), 0);
