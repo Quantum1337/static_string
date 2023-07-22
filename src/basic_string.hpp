@@ -940,7 +940,8 @@ class basic_string : public basic_string<CharT, Traits>
             this->internal_rangeInit(_other.begin(), _other.end(), this->back_inserter(*this));
         }
 
-        basic_string(basic_string&& _other) noexcept
+        basic_string(basic_string&& _other) : basic_string(std::move(static_cast<base&>(_other))) {}
+        basic_string(base&& _other) noexcept
         : basic_string()
         {
         }
