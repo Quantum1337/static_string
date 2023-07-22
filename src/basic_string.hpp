@@ -945,6 +945,10 @@ class basic_string : public basic_string<CharT, Traits>
         basic_string(base&& _other) noexcept
         : basic_string()
         {
+            this->internal_rangeInit(std::make_move_iterator(_other.begin()), 
+                                     std::make_move_iterator(_other.end()), 
+                                     this->back_inserter(*this));
+            _other.clear();
         }
 
         basic_string(std::initializer_list<CharT> _ilist)
