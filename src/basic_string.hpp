@@ -866,6 +866,14 @@ class basic_string<CharT, Traits>
             BASIC_STRING_ASSERT(_first <= _last);
         }
 
+        template<typename InputIt>
+        void assert_iterator_pair_in_range(InputIt _first, InputIt _last) const noexcept
+        {
+            assert_iterator_in_range(_first);
+            assert_iterator_in_range(_last);
+            assert_valid_iterator_pair(_first, _last);
+        }
+
     private:
         iterator const m_begin;
         iterator       m_pos;
