@@ -479,6 +479,15 @@ class basic_string<CharT, Traits>
             }
         }
 
+        class back_destroyer
+        {
+            public:
+                back_destroyer(basic_string& _deque): m_basicString{_deque} {}     
+                void operator()(const_reference _value) { static_cast<void>(_value); m_basicString.unchecked_pop_back(); };
+            private:
+                basic_string& m_basicString;
+        };
+
         // -- Iterator adapter (back inserter)
         template<typename TContainer>
         class back_insert_iterator : public std::iterator<std::output_iterator_tag, void, void, void, void>
