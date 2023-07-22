@@ -174,8 +174,8 @@ class basic_string<CharT, Traits>
         size_type max_size() const { return m_capacity; };
         size_type size() const { return std::distance(m_begin, m_pos); };
         size_type length() const { return std::distance(m_begin, m_pos); };
-        bool empty() const { return (m_begin == m_pos); };
-        bool full() const { return (static_cast<size_type>(std::distance(m_begin, m_pos)) == m_capacity); };
+        void reserve(size_type _new_cap = 0) { assert_count_in_range(_new_cap); };
+        void shrink_to_fit() { /* It is a non-binding request to reduce capacity() to size(). Doing nothing */ };
 
         //- Operations
         void clear() noexcept
