@@ -574,6 +574,19 @@ class basic_string<CharT, Traits>
             return _count;
         }
 
+        void resize(size_type _count)
+        {
+            assert_count_in_range(_count);
+
+            unchecked_resize(_count, '\0');
+        }
+        void resize(size_type _count, CharT _ch)
+        {
+            assert_count_in_range(_count);
+
+            unchecked_resize(_count, _ch);
+        }
+
         size_type find(const basic_string& _str, size_type _pos = 0) const
         {
             return unchecked_find(begin() + _pos, end(), _str.begin(), _str.end(), _pos + _str.size());
@@ -674,6 +687,22 @@ class basic_string<CharT, Traits>
             {
                 return to_iterator(_last);
             }
+        }
+
+        void unchecked_resize(size_type _count, CharT _value)
+        {
+            size_type curSize = size();
+
+            if(_count < curSize)
+            {
+                reverse_iterator newEnd(begin() + static_cast<difference_type>(_count)); //LCOV_EXCL_BR_LINE: We are not testing throw branches
+                std::for_each(rbegin(), newEnd, back_destroyer(*this)); //LCOV_EXCL_BR_LINE: We are not testing std::for_each branches
+            }
+            else if(_count > curSize)
+            {
+                unchecked_push_back_count((_count - curSize), _value);
+            }
+            // else: Same size as before
         }
 
         class back_destroyer
