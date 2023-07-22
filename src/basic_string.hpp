@@ -1105,6 +1105,11 @@ bool operator>=(const CharT*               _lhs,
     return !(_lhs < _rhs);
 }
 
+}
+
+namespace std
+{
+
 template<typename CharT>
 void swap(basic_string<CharT>& _lhs,
           basic_string<CharT>& _rhs) noexcept
