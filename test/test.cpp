@@ -372,8 +372,8 @@ void Test_Container(void)
     TEST_ASSERT_EQUAL(v0[0], 'x');
     TEST_ASSERT_EQUAL(v0.at(5), 'x');
 
-    // v0.reserve(12);
-    // CHECK(12 <= v0.capacity());
+    v0.reserve(12);
+    TEST_ASSERT_TRUE(12 <= v0.capacity());
     // v0.resize(8);
     // CHECK_SIZE_T(v0.size(), 8);
     // CHECK_INT(v0.end()[-1], '\0');
@@ -430,11 +430,8 @@ void Test_Container(void)
     // v0.shrink_to_fit();
     // CHECK_INT(v0.front(), 'x');
 
-    // {
-    //     Mycont v5(20, 'x');
-    //     Mycont v6(STD move(v5));
-    //     CHECK_SIZE_T(v5.size(), 0);
-    //     CHECK_SIZE_T(v6.size(), 20);
+    v0.shrink_to_fit();
+    TEST_ASSERT_EQUAL(v0.front(), 'x');
 
     //     Mycont v7;
     //     v7.assign(STD move(v6));
