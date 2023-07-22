@@ -471,14 +471,14 @@ void Test_Container(void)
     // v0.erase(v0.begin(), v0.begin() + 1);
     // CHECK_INT(*v0.begin(), 'a');
 
-    // v0.clear();
-    // CHECK(v0.empty());
-    // v0.swap(v1);
-    // CHECK(!v0.empty());
-    // CHECK(v1.empty());
-    // STD swap(v0, v1);
-    // CHECK(v0.empty());
-    // CHECK(!v1.empty());
+    v0.clear();
+    TEST_ASSERT_TRUE(v0.empty());
+    v0.swap(v1);
+    TEST_ASSERT_TRUE(!v0.empty());
+    TEST_ASSERT_TRUE(v1.empty());
+    std::swap(v0, v1);
+    TEST_ASSERT_TRUE(v0.empty());
+    TEST_ASSERT_TRUE(!v1.empty());
     // CHECK(v1 == v1);
     // CHECK(v0 < v1);
     // CHECK(v0 != v1);
