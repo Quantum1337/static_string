@@ -461,12 +461,7 @@ class basic_string<CharT, Traits>
         {
             if(_first != _last)
             {
-                if(_first == begin())
-                {
-                    std::for_each(_first, _last, front_destroyer(*this)); //LCOV_EXCL_BR_LINE: We are not testing std::for_each branches
-                    return to_iterator(_last);
-                }
-                else if (_last == end())
+                if (_last == end())
                 {
                     std::for_each(std::make_reverse_iterator(_last), std::make_reverse_iterator(_first), back_destroyer(*this)); //LCOV_EXCL_BR_LINE: We are not testing std::for_each branches
                     return end();
