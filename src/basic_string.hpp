@@ -835,7 +835,7 @@ class basic_string<CharT, Traits>
 
         void assert_has_elements() const noexcept
         {
-            DEQUE_ASSERT(!empty());
+            BASIC_STRING_ASSERT(!empty());
         }
 
         void assert_space_left() const noexcept
