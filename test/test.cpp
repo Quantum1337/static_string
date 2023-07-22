@@ -374,13 +374,13 @@ void Test_Container(void)
 
     v0.reserve(12);
     TEST_ASSERT_TRUE(12 <= v0.capacity());
-    // v0.resize(8);
-    // CHECK_SIZE_T(v0.size(), 8);
-    // CHECK_INT(v0.end()[-1], '\0');
-    // v0.resize(10, 'z');
-    // CHECK_SIZE_T(v0.size(), 10);
-    // CHECK_INT(v0.end()[-1], 'z');
-    // CHECK(v0.size() <= v0.max_size());
+    v0.resize(8);
+    TEST_ASSERT_EQUAL(v0.size(), 8);
+    TEST_ASSERT_EQUAL(v0.end()[-1], '\0');
+    v0.resize(10, 'z');
+    TEST_ASSERT_EQUAL(v0.size(), 10);
+    TEST_ASSERT_EQUAL(v0.end()[-1], 'z');
+    TEST_ASSERT_TRUE(v0.size() <= v0.max_size());
 
 
     // STD basic_string<char, STD char_traits<char>, STD allocator<char>>* p_cont = &v0;
