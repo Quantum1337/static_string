@@ -423,6 +423,24 @@ class basic_string<CharT, Traits>
                                      &_s[0], 
                                      &_s[0] + _count2);
         }
+        size_type copy(CharT* _dest, size_type _count, size_type _pos = 0) const
+        {
+            assert_access_in_range(_pos);
+
+            if (_count != npos)
+            {
+                _count = std::min(_count, size() - _pos);
+            }
+            else
+            {
+                _count = size() - _pos;
+            }
+
+            std::copy_n(begin() + _pos, _count, &_dest[0]);
+
+            return _count;
+        }
+
         size_type find(const basic_string& _str, size_type _pos = 0) const
         {
             return unchecked_find(begin() + _pos, end(), _str.begin(), _str.end(), _pos + _str.size());
