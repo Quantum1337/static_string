@@ -433,20 +433,22 @@ void Test_Container(void)
     v0.shrink_to_fit();
     TEST_ASSERT_EQUAL(v0.front(), 'x');
 
-    //     Mycont v7;
-    //     v7.assign(STD move(v6));
-    //     CHECK_SIZE_T(v6.size(), 0);
-    //     CHECK_SIZE_T(v7.size(), 20);
+    {
+        Mycont v5(20, 'x');
+        Mycont v6(std::move(v5));
+        TEST_ASSERT_EQUAL(v5.size(), 0);
+        TEST_ASSERT_EQUAL(v6.size(), 20);
 
-    //     Mycont v8;
-    //     v8 = STD move(v7);
-    //     CHECK_SIZE_T(v7.size(), 0);
-    //     CHECK_SIZE_T(v8.size(), 20);
+        Mycont v7;
+        v7.assign(std::move(v6));
+        TEST_ASSERT_EQUAL(v6.size(), 0);
+        TEST_ASSERT_EQUAL(v7.size(), 20);
 
-    //     Mycont v8a(STD move(v8), Myal());
-    //     CHECK_SIZE_T(v8.size(), 0);
-    //     CHECK_SIZE_T(v8a.size(), 20);
-    // }
+        Mycont v8;
+        v8 = std::move(v7);
+        TEST_ASSERT_EQUAL(v7.size(), 0);
+        TEST_ASSERT_EQUAL(v8.size(), 20);
+    }
 
     // v0.assign(v4.begin(), v4.end());
     // CHECK_SIZE_T(v0.size(), v4.size());
