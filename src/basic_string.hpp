@@ -171,10 +171,12 @@ class basic_string<CharT, Traits>
         const_reverse_iterator crend() const noexcept { return const_reverse_iterator(m_pos); };
 
         // -- Capacity
-        size_type max_size() const { return m_capacity; };
+        bool empty() const { return (m_begin == m_pos); };
         size_type size() const { return std::distance(m_begin, m_pos); };
         size_type length() const { return std::distance(m_begin, m_pos); };
+        size_type max_size() const { return m_capacity; };
         void reserve(size_type _new_cap = 0) { assert_count_in_range(_new_cap); };
+        size_type capacity() const noexcept { return m_capacity; }
         void shrink_to_fit() { /* It is a non-binding request to reduce capacity() to size(). Doing nothing */ };
 
         //- Operations
