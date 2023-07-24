@@ -360,6 +360,10 @@ void Test_Constructors(void)
     string<STRING_SIZE> s13 = s12.substr(1 ,2);
     TEST_ASSERT_EQUAL_STRING(s13.c_str(), "bc");
 
+    basic_string<char, std::char_traits<char>>* ps = (string<>*) nullptr;
+
+    ps = ps; // to quiet diagnostics
+
 }
 
 void Test_Container(void)
