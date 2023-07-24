@@ -277,6 +277,24 @@ void Test_Constructors(void)
     (void) hash_val;
 
     { // test sto* functions
+        std::size_t idx = 0;
+        
+        TEST_ASSERT_EQUAL(stoi(string<STRING_SIZE>("-37"), &idx), -37);
+        TEST_ASSERT_EQUAL(idx, 3);
+        TEST_ASSERT_EQUAL(stol(string<STRING_SIZE>("0x5a"), nullptr, 0), 0x5a);
+        TEST_ASSERT_EQUAL(stoul(string<STRING_SIZE>("5c"), nullptr, 16), 0x5c);
+
+        float fl = stof(string<STRING_SIZE>("-19.25"));
+        TEST_ASSERT_EQUAL(fl, -19.25);
+        TEST_ASSERT_EQUAL(stod(string<STRING_SIZE>("-19.25")), -19.25);
+        TEST_ASSERT_EQUAL(stold(string<STRING_SIZE>("-19.25"), &idx), -19.25);
+        TEST_ASSERT_EQUAL(idx, 6);
+
+        long long ll = 0xffffffff;
+        ll <<= 8;
+        TEST_ASSERT_TRUE(stoll(string<STRING_SIZE>("0xffffffff00"), nullptr, 0) == ll);
+        TEST_ASSERT_TRUE(stoull(string<STRING_SIZE>("0xffffffff00"), nullptr, 0) == (unsigned long long) ll);
+
         TEST_ASSERT_EQUAL_STRING(to_string((int) -23).c_str(), "-23");
         TEST_ASSERT_EQUAL_STRING(to_string((unsigned int) 23).c_str(), "23");
         TEST_ASSERT_EQUAL_STRING(to_string((long) -23).c_str(), "-23");
