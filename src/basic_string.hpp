@@ -636,7 +636,21 @@ class basic_string<CharT, Traits>
         , m_capacity{_storageSize}
         {
         }
-    
+
+        basic_string(pointer _pointerBegin, pointer _pointerEnd, size_type _storageSize)
+        : m_begin(_pointerBegin)
+        , m_pos(_pointerEnd)
+        , m_capacity{_storageSize}
+        {
+        }
+
+        basic_string(basic_string const& _other)
+        : m_begin(_other.m_begin)
+        , m_pos(_other.m_pos)
+        , m_capacity{_other.m_capacity}
+        {
+        }
+
     protected:
 
         template<typename InputIt1, typename InputIt2>
