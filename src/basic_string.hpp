@@ -901,6 +901,8 @@ class basic_string : public basic_string<CharT, Traits>
         using reverse_iterator = typename base::reverse_iterator;
         using const_reverse_iterator = typename base::const_reverse_iterator;
 
+        static const size_type npos = -1;
+
         basic_string()
         : base(m_storage.data(), Size)
         {
@@ -1001,6 +1003,11 @@ class basic_string : public basic_string<CharT, Traits>
         {
             base::operator=(_ilist);
             return *this;
+        }
+
+        basic_string substr(size_type _pos=0, size_type _count=npos) const
+        {
+            return basic_string(*this, _pos, _count);
         }
 
         void swap(basic_string& _other) noexcept
