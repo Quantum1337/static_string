@@ -276,6 +276,32 @@ void Test_Constructors(void)
     size_t hash_val = std::hash<string<>>()(string<STRING_SIZE>("abc"));
     (void) hash_val;
 
+    { // test sto* functions
+        TEST_ASSERT_EQUAL_STRING(to_string((int) -23).c_str(), "-23");
+        TEST_ASSERT_EQUAL_STRING(to_string((unsigned int) 23).c_str(), "23");
+        TEST_ASSERT_EQUAL_STRING(to_string((long) -23).c_str(), "-23");
+        TEST_ASSERT_EQUAL_STRING(to_string((unsigned long) 23).c_str(), "23");
+        TEST_ASSERT_EQUAL_STRING(to_string((long long) -23).c_str(), "-23");
+        TEST_ASSERT_EQUAL_STRING(to_string((unsigned long long) 23).c_str(), "23");
+        TEST_ASSERT_EQUAL_STRING(to_string((long double) 23.5).c_str(), "23.5");
+        TEST_ASSERT_EQUAL_STRING(to_string((float) -23.0f).c_str(), "-23");
+        TEST_ASSERT_EQUAL_STRING(to_string((double) 23.2).c_str(), "23.2");
+        TEST_ASSERT_EQUAL_STRING(to_string((long double) -23.0L).c_str(), "-23");
+
+        char buffer[10];
+        TEST_ASSERT_EQUAL_STRING(to_string((int) -23, &buffer[0]).c_str(), "-23");
+        TEST_ASSERT_EQUAL_STRING(to_string((int) -23, &buffer[0]).c_str(), "-23");
+        TEST_ASSERT_EQUAL_STRING(to_string((unsigned int) 23, &buffer[0]).c_str(), "23");
+        TEST_ASSERT_EQUAL_STRING(to_string((long) -23, &buffer[0]).c_str(), "-23");
+        TEST_ASSERT_EQUAL_STRING(to_string((unsigned long) 23, &buffer[0]).c_str(), "23");
+        TEST_ASSERT_EQUAL_STRING(to_string((long long) -23, &buffer[0]).c_str(), "-23");
+        TEST_ASSERT_EQUAL_STRING(to_string((unsigned long long) 23, &buffer[0]).c_str(), "23");
+        TEST_ASSERT_EQUAL_STRING(to_string((long double) 23.5, &buffer[0]).c_str(), "23.5");
+        TEST_ASSERT_EQUAL_STRING(to_string((float) -23.0f, &buffer[0]).c_str(), "-23");
+        TEST_ASSERT_EQUAL_STRING(to_string((double) 23.2, &buffer[0]).c_str(), "23.2");
+        TEST_ASSERT_EQUAL_STRING(to_string((long double) -23.0L, &buffer[0]).c_str(), "-23");
+    }
+
     {
         std::initializer_list<char> init{'a', 'b', 'c'};
         string<STRING_SIZE> s11(init);
