@@ -23,7 +23,6 @@ SOFTWARE.
 */
 
 #include "../src/string.hpp"
-#include "../src/hash.hpp"
 #include "unity/unity.h"
 
 using namespace stds;
