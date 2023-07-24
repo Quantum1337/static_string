@@ -311,6 +311,11 @@ void Test_Constructors(void)
         TEST_ASSERT_EQUAL(s11[2], 'c');
     }
 
+    // Substr
+    string<STRING_SIZE> s12("abcde");
+    string<STRING_SIZE> s13 = s12.substr(1 ,2);
+    TEST_ASSERT_EQUAL_STRING(s13.c_str(), "bc");
+
 }
 
 void Test_Container(void)
