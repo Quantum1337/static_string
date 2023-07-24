@@ -3,6 +3,7 @@
 #include "Implementation/basic_string_Types.hpp"
 #include "Implementation/basic_string_Iterator.hpp"
 #include "Implementation/basic_string_Assert.hpp"
+#include "Implementation/basic_string_Impl.hpp"
 #include <array>
 #include <algorithm>
 

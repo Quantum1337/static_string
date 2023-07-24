@@ -31,4 +31,44 @@ string<> to_string(T _value, string<>::value_type* _buf, size_t _size = Size)
     return string<>(_buf, res.ptr, _size);
 }
 
+int stoi(const string<>& _str, std::size_t* _pos = nullptr, int _base = 10)
+{
+    return Implementation::internal_sto<int>(_str, _pos, _base, std::strtol);
+}
+
+long stol(const string<>& _str, std::size_t* _pos = nullptr, int _base = 10)
+{
+    return Implementation::internal_sto<long>(_str, _pos, _base, std::strtol);
+}
+
+long long stoll(const string<>& _str, std::size_t* _pos = nullptr, int _base = 10)
+{
+    return Implementation::internal_sto<long long>(_str, _pos, _base, std::strtoll);
+}
+
+unsigned long stoul(const string<>& _str, std::size_t* _pos = nullptr, int _base = 10)
+{
+    return Implementation::internal_sto<unsigned long>(_str, _pos, _base, std::strtoul);
+}
+
+unsigned long long stoull(const string<>& _str, std::size_t* _pos = nullptr, int _base = 10)
+{
+    return Implementation::internal_sto<unsigned long long>(_str, _pos, _base, std::strtoull);
+}
+
+float stof(const string<>& _str, std::size_t* _pos = nullptr)
+{
+    return Implementation::internal_sto_fp<float>(_str, _pos, std::strtof);
+}
+
+double stod(const string<>& _str, std::size_t* _pos = nullptr)
+{
+    return Implementation::internal_sto_fp<double>(_str, _pos, std::strtod);
+}
+
+long double stold(const string<>& _str, std::size_t* _pos = nullptr)
+{
+    return Implementation::internal_sto_fp<long double>(_str, _pos, std::strtold);
+}
+
 }
