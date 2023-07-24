@@ -626,10 +626,6 @@ class basic_string<CharT, Traits>
                 return npos;
             }
         }
-        // basic_string substr(size_type _pos /*= 0*/, size_type _count /*npos*/) const
-        // {
-        //     return basic_string<50>(*this, _pos, _count);
-        // }
 
         basic_string(pointer _pointer, size_type _storageSize)
         : m_begin(_pointer)
