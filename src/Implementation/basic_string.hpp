@@ -765,7 +765,7 @@ class basic_string<CharT, Traits>
 
         size_type internal_strlen(const_pointer _s) const
         {
-            return __builtin_strlen(_s); //ToDo: From Traits
+            return Traits::length(_s);
         }
 
         iterator unchecked_insert_value(const_iterator _pos, size_type _count, CharT _value) noexcept
