@@ -272,7 +272,7 @@ void Test_Constructors(void)
     TEST_ASSERT_TRUE(s4 >= "s3");
 
     //Test hash compatibility
-    size_t hash_val = std::hash<string<>>()(string<STRING_SIZE>("abc"));
+    unsigned long long hash_val = std::hash<string<>>()(string<STRING_SIZE>("abc"));
     (void) hash_val;
 
     { // test sto* functions

@@ -25,6 +25,7 @@ SOFTWARE.
 #pragma once
 
 #include "Implementation/basic_string.hpp"
+#include "Implementation/basic_string_Hash.hpp"
 #include <limits>
 #include <charconv>
 
@@ -102,22 +103,18 @@ namespace std
 template<>
 struct hash<stds::string<>>
 {
-    size_t operator()(stds::string<> const& _s) const noexcept
+    unsigned long long operator()(stds::string<> const& _s) const noexcept
     {
-        static_cast<void>(_s);
-
-        return 0;
+        return stds::Implementation::internal_hash_fnv_64(_s.begin(), _s.end());
     }
 };
 
 template<stds::string<>::size_type Size>
 struct hash<stds::string<Size>>
 {
-    size_t operator()(stds::string<Size> const& _s) const noexcept
+    unsigned long long operator()(stds::string<Size> const& _s) const noexcept
     {
-        static_cast<void>(_s);
-
-        return 0;
+        return stds::Implementation::internal_hash_fnv_64(_s.begin(), _s.end());
     }
 };
 
