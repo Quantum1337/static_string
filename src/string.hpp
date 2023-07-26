@@ -25,7 +25,7 @@ SOFTWARE.
 #pragma once
 
 #include "Implementation/basic_string.hpp"
-#include "Implementation/basic_string_Hash.hpp"
+#include "Implementation/basic_string_Impl.hpp"
 #include <limits>
 #include <charconv>
 

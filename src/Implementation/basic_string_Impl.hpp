@@ -61,5 +61,27 @@ T internal_sto_fp(const S& _str, std::size_t* _pos = nullptr, f _f = std::strtof
     return res;   
 }
 
+template<typename InputIt>
+unsigned long long internal_hash_fnv_64(InputIt _begin, InputIt _end)
+{
+    //Fowler-Noll-Vo hash function (non-cryptographic hash)
+
+    static constexpr unsigned long long OFFSET_BASIS = 0xCBF29CE484222325ull;
+    static constexpr unsigned long long PRIME        = 0x00000100000001b3ull;
+
+    unsigned long long hash = OFFSET_BASIS;
+
+    while (_begin != _end)
+    {
+        hash *= PRIME;
+        hash ^= *_begin;
+
+        ++_begin;
+    }
+
+    return hash;
+
+}
+
 }
 }
