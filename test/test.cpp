@@ -359,7 +359,7 @@ void Test_Constructors(void)
     string<STRING_SIZE> s13 = s12.substr(1 ,2);
     TEST_ASSERT_EQUAL_STRING(s13.c_str(), "bc");
 
-    basic_string<char, std::char_traits<char>>* ps = (string<>*) nullptr;
+    Implementation::basic_string<char, std::char_traits<char>>* ps = (string<>*) nullptr;
 
     ps = ps; // to quiet diagnostics
 
@@ -425,7 +425,7 @@ void Test_Container(void)
     TEST_ASSERT_EQUAL(v0.end()[-1], 'z');
     TEST_ASSERT_TRUE(v0.size() <= v0.max_size());
 
-    basic_string<char, std::char_traits<char>>* p_cont = &v0;
+    Implementation::basic_string<char, std::char_traits<char>>* p_cont = &v0;
     p_cont = p_cont; // to quiet diagnostics
 
     { // check iterators generators

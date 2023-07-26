@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "basic_string.hpp"
+#include "Implementation/basic_string.hpp"
 #include <limits>
 #include <charconv>
 
@@ -9,7 +9,7 @@ namespace stds
 {
 
 template<Implementation::size_type Size = static_cast<Implementation::size_type>(0)>
-using string = stds::basic_string<char, std::char_traits<char>, Size>;
+using string = stds::Implementation::basic_string<char, std::char_traits<char>, Size>;
 
 template<typename T, size_t Size = std::numeric_limits<T>::digits10 + 2>
 string<Size> to_string(T _value)

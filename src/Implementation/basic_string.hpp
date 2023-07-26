@@ -1,14 +1,17 @@
 #pragma once
 
-#include "Implementation/basic_string_Types.hpp"
-#include "Implementation/basic_string_Iterator.hpp"
-#include "Implementation/basic_string_Assert.hpp"
-#include "Implementation/basic_string_Impl.hpp"
+#include "basic_string_Types.hpp"
+#include "basic_string_Iterator.hpp"
+#include "basic_string_Assert.hpp"
+#include "basic_string_Impl.hpp"
 #include <array>
 #include <algorithm>
 
 namespace stds
 {
+namespace Implementation
+{
+
 
 template<typename CharT, typename Traits, Implementation::size_type=static_cast<Implementation::size_type>(0)>
 class basic_string;
@@ -26,10 +29,10 @@ class basic_string<CharT, Traits>
         using const_reference = value_type const&;
         using pointer = value_type*;
         using const_pointer = value_type const*;
-        using iterator = Implementation::base_iterator<value_type, basic_string>;
-        using const_iterator = Implementation::base_iterator<value_type const, basic_string>;
-        using reverse_iterator = std::reverse_iterator<Implementation::base_iterator<value_type, basic_string>>;
-        using const_reverse_iterator = std::reverse_iterator<Implementation::base_iterator<value_type const, basic_string>>;
+        using iterator = base_iterator<value_type, basic_string>;
+        using const_iterator = base_iterator<value_type const, basic_string>;
+        using reverse_iterator = std::reverse_iterator<base_iterator<value_type, basic_string>>;
+        using const_reverse_iterator = std::reverse_iterator<base_iterator<value_type const, basic_string>>;
 
         static const size_type npos = -1;
 
@@ -762,7 +765,7 @@ class basic_string<CharT, Traits>
 
         size_type internal_strlen(const_pointer _s) const
         {
-            return __builtin_strlen(_s);
+            return __builtin_strlen(_s); //ToDo: From Traits
         }
 
         iterator unchecked_insert_value(const_iterator _pos, size_type _count, CharT _value) noexcept
@@ -1141,6 +1144,7 @@ bool operator>=(const CharT*               _lhs,
     return !(_lhs < _rhs);
 }
 
+}
 }
 
 namespace std
