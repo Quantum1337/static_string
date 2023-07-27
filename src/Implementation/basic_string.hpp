@@ -29,6 +29,7 @@ SOFTWARE.
 #include "basic_string_Assert.hpp"
 #include "basic_string_Impl.hpp"
 #include <algorithm>
+#include <string>
 
 namespace stds
 {
