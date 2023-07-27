@@ -1054,9 +1054,10 @@ class basic_string : public basic_string<CharT, Traits>
         }
 
     private:
-    
+        static constexpr size_type STORAGE_SIZE = Size + 1u;
+
         using storage_type = Implementation::aligned_storage_type<CharT>;
-        storage_type m_storage[Size];
+        storage_type m_storage[STORAGE_SIZE];
 
 };
 
