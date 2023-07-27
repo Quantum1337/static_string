@@ -28,7 +28,6 @@ SOFTWARE.
 #include "basic_string_Iterator.hpp"
 #include "basic_string_Assert.hpp"
 #include "basic_string_Impl.hpp"
-#include <array>
 #include <algorithm>
 
 namespace stds
@@ -942,7 +941,7 @@ class basic_string : public basic_string<CharT, Traits>
         static const size_type npos = -1;
 
         basic_string()
-        : base(m_storage.data(), Size)
+        : base(static_cast<pointer>(static_cast<void*>(m_storage)), Size)
         {
         }
 
@@ -1054,8 +1053,10 @@ class basic_string : public basic_string<CharT, Traits>
         }
 
     private:
+    
+        using storage_type = Implementation::aligned_storage_type<CharT>;
+        storage_type m_storage[Size];
 
-        std::array<CharT, Size> m_storage;
 };
 
 template<class CharT>
