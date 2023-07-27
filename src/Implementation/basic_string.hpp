@@ -944,6 +944,7 @@ class basic_string : public basic_string<CharT, Traits>
         basic_string()
         : base(static_cast<pointer>(static_cast<void*>(m_storage)), Size)
         {
+            static_assert(STORAGE_SIZE > 1, "Invalid size");
         }
 
         basic_string(size_type _count, CharT _ch)
