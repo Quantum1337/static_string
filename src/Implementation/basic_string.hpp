@@ -105,7 +105,7 @@ class basic_string<CharT, Traits>
         }
 
         basic_string& assign(const basic_string& _other,
-                             size_type _pos, size_type _count /* =npos ??*/)
+                             size_type _pos, size_type _count=npos)
         {
             clear();
             internal_rangeInit(_other.begin() + _pos, _other.begin() + (_count + 1u), this->back_inserter(*this));
@@ -255,7 +255,7 @@ class basic_string<CharT, Traits>
             return *this; 
         }
         basic_string& insert(size_type _index, const basic_string& _str,
-                             size_type _s_index, size_type _count /*= npos */)
+                             size_type _s_index, size_type _count=npos)
         {
             iterator substrStart = to_iterator(_str.begin()) + _s_index;
             iterator substrStop = to_iterator(_str.begin()) + _count;
@@ -300,7 +300,7 @@ class basic_string<CharT, Traits>
             return unchecked_insert_it(_pos, _ilist.begin(), _ilist.end());
         }
 
-        basic_string& erase(size_type _index /*= 0*/, size_type _count /*= npos*/)
+        basic_string& erase(size_type _index= 0, size_type _count=npos)
         {
             assert_access_in_range(_index);
 
@@ -348,7 +348,7 @@ class basic_string<CharT, Traits>
             return *this;
         }
         basic_string& append(const basic_string& _str,
-                             size_type _pos, size_type _count /*= npos*/)
+                             size_type _pos, size_type _count=npos)
         {
             iterator substrStart = to_iterator(_str.begin()) + _pos;
             iterator substrStop = to_iterator(_str.begin()) + (_pos + _count);
@@ -422,7 +422,7 @@ class basic_string<CharT, Traits>
                                      _str.end());
         }
         int compare(size_type _pos1, size_type _count1, 
-                    const basic_string& _str, size_type _pos2, size_type _count2 /*= npos*/) const
+                    const basic_string& _str, size_type _pos2, size_type _count2=npos) const
         {
             assert_access_in_range(_pos1);
             // assert_access_in_range(_pos2);
@@ -482,7 +482,7 @@ class basic_string<CharT, Traits>
         }
         basic_string& replace(size_type _pos, size_type _count,
                               const basic_string& _str,
-                              size_type _pos2, size_type _count2 = npos)
+                              size_type _pos2, size_type _count2=npos)
         {
             assert_access_in_range(_pos);
             // assert_access_in_range(_pos2);
