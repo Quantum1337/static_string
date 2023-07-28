@@ -648,9 +648,50 @@ class basic_string<CharT, Traits>
             {
                 return std::distance(begin(), it);
             }
-            else
+        }
+
+        size_type rfind(const basic_string& _str, size_type _pos=npos) const noexcept
+        {
+            size_type pos = std::min(_pos, size());
+
+            return unchecked_rfind(rend() - (pos + 1), rend(), _str.rbegin(), _str.rend(), _str.size());
+        }
+
+        size_type rfind(const CharT* _s, size_type _pos, size_type _count) const
+        {
+            size_type len = internal_strlen(_s);
+            size_type pos = std::min(_pos, size());
+
+            const_reverse_iterator srbegin(&_s[_count]);
+            const_reverse_iterator srend(&_s[0]);
+
+            return unchecked_rfind(rend() - (pos + 1), rend(), srbegin, srend, len);
+        }
+
+        size_type rfind(const CharT* _s, size_type _pos=npos) const
+        {
+            size_type len = internal_strlen(_s);
+            size_type pos = std::min(_pos, size());
+
+            const_reverse_iterator srbegin(&_s[len]);
+            const_reverse_iterator srend(&_s[0]);
+
+            return unchecked_rfind(rend() - (pos + 1), rend(), srbegin, srend, len);
+        }
+
+        size_type rfind(CharT _ch, size_type _pos=npos) const noexcept
+        {
+            size_type pos = std::min(_pos, size());
+            
+            const_reverse_iterator it = std::find(rend() - (pos + 1), rend(), _ch);
+
+            if (it == rend())
             {
                 return npos;
+            }
+            else
+            {
+                return size() - std::distance(rbegin(), it) - 1;
             }
         }
 
@@ -711,6 +752,23 @@ class basic_string<CharT, Traits>
             else
             {
                 return std::distance(begin(), itPos);
+            }
+        }
+
+        template<typename InputIt1, typename InputIt2>
+        size_type unchecked_rfind(const InputIt1 _first1, const InputIt1 _last1, const InputIt2 _first2, const InputIt2 _last2, size_type _subStrLength) const
+        {
+            if (_subStrLength > size()) { return npos; }
+
+            const_reverse_iterator itPos = std::search(_first1, _last1, _first2, _last2);
+
+            if (itPos == _last1)
+            {
+                return npos;
+            }
+            else
+            {
+                return size() - std::distance(_first2, _last2) - std::distance(rbegin(), itPos);
             }
         }
 
