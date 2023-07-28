@@ -644,7 +644,11 @@ class basic_string<CharT, Traits>
         {
             const_iterator it = std::find(begin() + _pos, end(), _ch);
 
-            if (it != end())
+            if (it == end())
+            {
+                return npos;
+            }
+            else
             {
                 return std::distance(begin(), it);
             }
