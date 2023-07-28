@@ -72,7 +72,7 @@ class base_iterator
         }
 
         // -- (+)
-        base_iterator operator+(difference_type _offset) { return (base_iterator(*this) += _offset); }
+        base_iterator operator+(difference_type _offset) const { return (base_iterator(*this) += _offset); }
         base_iterator& operator++() { ++m_pointer; return *this; }
         base_iterator& operator+=(difference_type _offset)
         {
@@ -88,7 +88,7 @@ class base_iterator
         }
 
         // -- (-)
-        base_iterator operator-(difference_type _offset) { return (base_iterator(*this) -= _offset); }
+        base_iterator operator-(difference_type _offset) const { return (base_iterator(*this) -= _offset); }
         difference_type operator-(const_iterator const& _other) const { return (m_pointer - _other.m_pointer); }
         base_iterator& operator--() { --m_pointer; return *this; }
         base_iterator& operator-=(difference_type _offset)
