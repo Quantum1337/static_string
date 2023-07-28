@@ -184,15 +184,18 @@ void Test_Constructors(void)
     TEST_ASSERT_EQUAL(s1.find('s', 1), 2);
     TEST_ASSERT_EQUAL(s1.find('x'), string<>::npos);
 
-    // CHECK_SIZE_T(s1.rfind(s4), 2);
-    // CHECK_SIZE_T(s1.rfind(s4, 1), 0);
-    // CHECK_SIZE_T(s1.rfind(s5, 3), STD string::npos);
-    // CHECK_SIZE_T(s1.rfind("s4"), 2);
-    // CHECK_SIZE_T(s1.rfind("s4", 3), 2);
-    // CHECK_SIZE_T(s1.rfind("s4XX", 1, 3), STD string::npos);
-    // CHECK_SIZE_T(s1.rfind('s'), 2);
-    // CHECK_SIZE_T(s1.rfind('s', 2), 2);
-    // CHECK_SIZE_T(s1.rfind('x'), STD string::npos);
+    TEST_ASSERT_EQUAL(s1.rfind(s4), 2);
+    TEST_ASSERT_EQUAL(s1.rfind(s4, 1), 0);
+    TEST_ASSERT_EQUAL(s1.rfind(s5, 3), string<>::npos);
+    TEST_ASSERT_EQUAL(s1.rfind("s4"), 2);
+    TEST_ASSERT_EQUAL(s1.rfind("s4", 3), 2);
+    TEST_ASSERT_EQUAL(s1.rfind("s5", 3), string<>::npos);
+    TEST_ASSERT_EQUAL(s1.rfind("s4XX", 2, 1), 2);
+    TEST_ASSERT_EQUAL(s1.rfind("s4XX", 1, 3), string<>::npos);
+    TEST_ASSERT_EQUAL(s1.rfind('s'), 2);
+    TEST_ASSERT_EQUAL(s1.rfind('s', 2), 2);
+    TEST_ASSERT_EQUAL(s1.rfind('s', 1), 0);
+    TEST_ASSERT_EQUAL(s1.rfind('x'), string<>::npos);
 
     // CHECK_SIZE_T(s1.find_first_of(s4), 0);
     // CHECK_SIZE_T(s1.find_first_of(s4, 1), 1);
