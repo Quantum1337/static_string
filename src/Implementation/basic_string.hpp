@@ -642,16 +642,10 @@ class basic_string<CharT, Traits>
         }
         size_type find(CharT _ch, size_type _pos = 0) const noexcept
         {
-            const_iterator it = std::find(begin() + _pos, end(), _ch);
-
-            if (it == end())
-            {
-                return npos;
-            }
-            else
-            {
-                return std::distance(begin(), it);
-            }
+            const CharT s[1] = {_ch};
+            size_type pos = std::min(_pos, size());
+            
+            return unchecked_find(begin() + pos, end(), &s[0], &s[1], 1);
         }
 
         size_type rfind(const basic_string& _str, size_type _pos=npos) const noexcept
@@ -685,9 +679,11 @@ class basic_string<CharT, Traits>
 
         size_type rfind(CharT _ch, size_type _pos=npos) const noexcept
         {
+            const CharT s[1] = {_ch};
             size_type pos = std::min(_pos, size());
             
-            const_reverse_iterator it = std::find(rend() - (pos + 1), rend(), _ch);
+            return unchecked_rfind(rend() - (pos + 1), rend(), &s[0], &s[1], 1);
+        }
 
         size_type find_first_of(const basic_string& _str, size_type _pos=0) const noexcept
         {
