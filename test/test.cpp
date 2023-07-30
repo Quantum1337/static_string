@@ -208,15 +208,15 @@ void Test_Constructors(void)
     TEST_ASSERT_EQUAL(s1.find_first_of('s', 1), 2);
     TEST_ASSERT_EQUAL(s1.find_first_of('x'), string<>::npos);
 
-    // CHECK_SIZE_T(s1.find_last_of(s4), 3);
-    // CHECK_SIZE_T(s1.find_last_of(s4, 1), 1);
-    // CHECK_SIZE_T(s1.find_last_of(s6), STD string::npos);
-    // CHECK_SIZE_T(s1.find_last_of("s4"), 3);
-    // CHECK_SIZE_T(s1.find_last_of("s4", 2), 2);
-    // CHECK_SIZE_T(s1.find_last_of("abs", 1, 2), STD string::npos);
-    // CHECK_SIZE_T(s1.find_last_of('s'), 2);
-    // CHECK_SIZE_T(s1.find_last_of('s', 1), 0);
-    // CHECK_SIZE_T(s1.find_last_of('x'), STD string::npos);
+    TEST_ASSERT_EQUAL(s1.find_last_of(s4), 3);
+    TEST_ASSERT_EQUAL(s1.find_last_of(s4, 1), 1);
+    TEST_ASSERT_EQUAL(s1.find_last_of(s6), string<>::npos);
+    TEST_ASSERT_EQUAL(s1.find_last_of("s4"), 3);
+    TEST_ASSERT_EQUAL(s1.find_last_of("s4", 2), 2);
+    TEST_ASSERT_EQUAL(s1.find_last_of("abs", 1, 2), string<>::npos);
+    TEST_ASSERT_EQUAL(s1.find_last_of('s'), 2);
+    TEST_ASSERT_EQUAL(s1.find_last_of('s', 1), 0);
+    TEST_ASSERT_EQUAL(s1.find_last_of('x'), string<>::npos);
 
     TEST_ASSERT_EQUAL(s1.find_first_not_of(s5), 1);
     TEST_ASSERT_EQUAL(s1.find_first_not_of(s5, 2), 3);
