@@ -715,6 +715,32 @@ class basic_string<CharT, Traits>
 
             return unchecked_find_first_of(begin() + pos, end(), &s[0], &s[1]);
         }
+
+        size_type find_first_not_of(const basic_string& _str, size_type _pos=0) const noexcept
+        {
+            size_type pos = std::min(_pos, size());
+            
+            return unchecked_find_first_not_of(begin() + pos, end(), _str.begin(), _str.end());    
+        }
+        size_type find_first_not_of(const CharT* _s, size_type _pos, size_type _count) const
+        {
+            size_type pos = std::min(_pos, size());
+            
+            return unchecked_find_first_not_of(begin() + pos, end(), &_s[0], &_s[_count]);  
+        }
+        size_type find_first_not_of(const CharT* _s, size_type _pos=0) const
+        {
+            size_type len = internal_strlen(_s);
+            size_type pos = std::min(_pos, size());
+
+            return unchecked_find_first_not_of(begin() + pos, end(), &_s[0], &_s[len]);
+        }
+        size_type find_first_not_of(CharT _ch, size_type _pos=0) const noexcept
+        {
+            const CharT s[1] = {_ch};
+            size_type pos = std::min(_pos, size());
+
+            return unchecked_find_first_not_of(begin() + pos, end(), &s[0], &s[1]);
         }
 
         basic_string(pointer _pointer, size_type _storageSize)
@@ -807,6 +833,22 @@ class basic_string<CharT, Traits>
             {
                 return std::distance(begin(), it);
             }          
+        }
+
+        template<typename InputIt1, typename InputIt2>
+        size_type unchecked_find_first_not_of(const InputIt1 _first1, const InputIt1 _last1, const InputIt2 _first2, const InputIt2 _last2) const
+        {
+            for(size_type i = 0; i < static_cast<size_type>((std::distance(_first1, _last1))); ++i)
+            {
+                const_iterator it = std::find_first_of(_first1 + i, _last1, _first2, _last2, Traits::eq);
+
+                if(it != (_first1 + i))
+                {
+                    return i + (std::distance(begin(), _first1));
+                }
+            }
+
+            return npos;        
         }
 
         iterator unchecked_erase(const_iterator _first, const_iterator _last)
