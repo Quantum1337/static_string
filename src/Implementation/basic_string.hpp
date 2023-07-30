@@ -848,7 +848,7 @@ class basic_string<CharT, Traits>
         {
             const_iterator it = std::find_first_of(_first1, _last1, _first2, _last2, Traits::eq);
 
-            if (it == end())
+            if (it == _last1)
             {
                 return npos;
             }
