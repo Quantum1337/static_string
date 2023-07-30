@@ -791,7 +791,7 @@ class basic_string<CharT, Traits>
         {
             if (_subStrLength > size()) { return npos; }
 
-            const_iterator itPos = std::search(_first1, _last1, _first2, _last2);
+            const_iterator itPos = std::search(_first1, _last1, _first2, _last2, Traits::eq);
 
             if (itPos == _last1)
             {
@@ -808,7 +808,7 @@ class basic_string<CharT, Traits>
         {
             if (_subStrLength > size()) { return npos; }
 
-            const_reverse_iterator itPos = std::search(_first1, _last1, _first2, _last2);
+            const_reverse_iterator itPos = std::search(_first1, _last1, _first2, _last2, Traits::eq);
 
             if (itPos == _last1)
             {
