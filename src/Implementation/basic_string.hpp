@@ -650,7 +650,7 @@ class basic_string<CharT, Traits>
 
         size_type rfind(const basic_string& _str, size_type _pos=npos) const noexcept
         {
-            size_type pos = std::min(_pos, size());
+            size_type pos = std::min(_pos, size() - 1);
 
             return unchecked_rfind(rend() - (pos + 1), rend(), _str.rbegin(), _str.rend(), _str.size());
         }
@@ -658,7 +658,7 @@ class basic_string<CharT, Traits>
         size_type rfind(const CharT* _s, size_type _pos, size_type _count) const
         {
             size_type len = internal_strlen(_s);
-            size_type pos = std::min(_pos, size());
+            size_type pos = std::min(_pos, size() - 1);
 
             const_reverse_iterator srbegin(&_s[_count]);
             const_reverse_iterator srend(&_s[0]);
@@ -669,7 +669,7 @@ class basic_string<CharT, Traits>
         size_type rfind(const CharT* _s, size_type _pos=npos) const
         {
             size_type len = internal_strlen(_s);
-            size_type pos = std::min(_pos, size());
+            size_type pos = std::min(_pos, size() - 1);
 
             const_reverse_iterator srbegin(&_s[len]);
             const_reverse_iterator srend(&_s[0]);
@@ -680,7 +680,7 @@ class basic_string<CharT, Traits>
         size_type rfind(CharT _ch, size_type _pos=npos) const noexcept
         {
             const CharT s[1] = {_ch};
-            size_type pos = std::min(_pos, size());
+            size_type pos = std::min(_pos, size() - 1);
             
             return unchecked_rfind(rend() - (pos + 1), rend(), &s[0], &s[1], 1);
         }
@@ -741,27 +741,27 @@ class basic_string<CharT, Traits>
 
         size_type find_last_of(const basic_string& _str, size_type _pos=npos) const noexcept
         {
-            size_type pos = std::min(_pos, size());
+            size_type pos = std::min(_pos, size() - 1);
             
             return unchecked_find_last_of(rend() - (pos + 1), rend(), _str.begin(), _str.end());
         }
         size_type find_last_of(const CharT* _s, size_type _pos, size_type _count) const
         {
-            size_type pos = std::min(_pos, size());
+            size_type pos = std::min(_pos, size() - 1);
 
             return unchecked_find_last_of(rend() - (pos + 1), rend(), &_s[0], &_s[_count]);         
         }
         size_type find_last_of(const CharT* _s, size_type _pos=npos) const
         {
             size_type len = internal_strlen(_s);
-            size_type pos = std::min(_pos, size());
+            size_type pos = std::min(_pos, size() - 1);
 
             return unchecked_find_last_of(rend() - (pos + 1), rend(), &_s[0], &_s[len]);
         }
         size_type find_last_of(CharT _ch, size_type _pos=npos) const noexcept
         {
             const CharT s[1] = {_ch};
-            size_type pos = std::min(_pos, size());
+            size_type pos = std::min(_pos, size() - 1);
 
             return unchecked_find_last_of(rend() - (pos + 1), rend(), &s[0], &s[1]);
         }
