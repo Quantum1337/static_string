@@ -228,15 +228,15 @@ void Test_Constructors(void)
     TEST_ASSERT_EQUAL(s1.find_first_not_of('s', 2), 3);
     TEST_ASSERT_EQUAL(s1.find_first_not_of('s', 4), string<>::npos);
 
-    // CHECK_SIZE_T(s1.find_last_not_of(s5), 3);
-    // CHECK_SIZE_T(s1.find_last_not_of(s5, 2), 1);
-    // CHECK_SIZE_T(s1.find_last_not_of(s4), STD string::npos);
-    // CHECK_SIZE_T(s1.find_last_not_of("s5"), 3);
-    // CHECK_SIZE_T(s1.find_last_not_of("s5", 2), 1);
-    // CHECK_SIZE_T(s1.find_last_not_of("s4a", 1, 2), STD string::npos);
-    // CHECK_SIZE_T(s1.find_last_not_of('s'), 3);
-    // CHECK_SIZE_T(s1.find_last_not_of('s', 2), 1);
-    // CHECK_SIZE_T(s1.find_last_not_of('s', 0), STD string::npos);
+    TEST_ASSERT_EQUAL(s1.find_last_not_of(s5), 3);
+    TEST_ASSERT_EQUAL(s1.find_last_not_of(s5, 2), 1);
+    TEST_ASSERT_EQUAL(s1.find_last_not_of(s4), string<>::npos);
+    TEST_ASSERT_EQUAL(s1.find_last_not_of("s5"), 3);
+    TEST_ASSERT_EQUAL(s1.find_last_not_of("s5", 2), 1);
+    TEST_ASSERT_EQUAL(s1.find_last_not_of("s4a", 1, 2), string<>::npos);
+    TEST_ASSERT_EQUAL(s1.find_last_not_of('s'), 3);
+    TEST_ASSERT_EQUAL(s1.find_last_not_of('s', 2), 1);
+    TEST_ASSERT_EQUAL(s1.find_last_not_of('s', 0), string<>::npos);
 
     // test compares
     TEST_ASSERT_TRUE(s1.compare(s1) == 0);
