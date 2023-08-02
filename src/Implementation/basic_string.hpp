@@ -205,7 +205,7 @@ class basic_string<CharT, Traits>
         // -- Capacity
         bool empty() const { return (m_begin == m_pos); };
         size_type size() const { return std::distance(m_begin, m_pos); };
-        size_type length() const { return std::distance(m_begin, m_pos); };
+        size_type length() const { return size(); };
         size_type max_size() const { return m_capacity; };
         void reserve(size_type _new_cap = 0) { assert_count_in_range(_new_cap); };
         size_type capacity() const noexcept { return m_capacity; }
