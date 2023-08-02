@@ -30,7 +30,7 @@ namespace Implementation
 {
 
 template<typename T, typename S, typename f>
-T internal_sto(const S& _str, std::size_t* _pos = nullptr, int _base = 10, f _f = std::strtol)
+inline T internal_sto(const S& _str, std::size_t* _pos = nullptr, int _base = 10, f _f = std::strtol)
 {
     char* ptr = nullptr;
 
@@ -46,7 +46,7 @@ T internal_sto(const S& _str, std::size_t* _pos = nullptr, int _base = 10, f _f 
 }
 
 template<typename T, typename S, typename f>
-T internal_sto_fp(const S& _str, std::size_t* _pos = nullptr, f _f = std::strtof)
+inline T internal_sto_fp(const S& _str, std::size_t* _pos = nullptr, f _f = std::strtof)
 {
     char* ptr = nullptr;
 
@@ -62,7 +62,7 @@ T internal_sto_fp(const S& _str, std::size_t* _pos = nullptr, f _f = std::strtof
 }
 
 template<typename InputIt>
-unsigned long long internal_hash_fnv_64(InputIt _begin, InputIt _end)
+inline unsigned long long internal_hash_fnv_64(InputIt _begin, InputIt _end)
 {
     //Fowler-Noll-Vo hash function (non-cryptographic hash)
 
