@@ -845,13 +845,13 @@ class basic_string<CharT, Traits>
 
             const_iterator itPos = std::search(_first1, _last1, _first2, _last2, Traits::eq);
 
-            if (itPos == _last1)
+            if (itPos != _last1)
             {
-                return npos;
+                return std::distance(begin(), itPos);
             }
             else
             {
-                return std::distance(begin(), itPos);
+                return npos;
             }
         }
 
@@ -860,15 +860,15 @@ class basic_string<CharT, Traits>
         {
             if (_subStrLength > size()) { return npos; }
 
-            const_reverse_iterator itPos = std::search(_first1, _last1, _first2, _last2, Traits::eq);
+            const_reverse_iterator it = std::search(_first1, _last1, _first2, _last2, Traits::eq);
 
-            if (itPos == _last1)
+            if (it != _last1)
             {
-                return npos;
+                return size() - (std::distance(_first2, _last2) + std::distance(rbegin(), it));
             }
             else
             {
-                return size() - std::distance(_first2, _last2) - std::distance(rbegin(), itPos);
+                return npos;
             }
         }
 
@@ -877,27 +877,30 @@ class basic_string<CharT, Traits>
         {
             const_iterator it = std::find_first_of(_first1, _last1, _first2, _last2, Traits::eq);
 
-            if (it == _last1)
+            if (it != _last1)
             {
-                return npos;
+                return std::distance(begin(), it);
             }
             else
             {
-                return std::distance(begin(), it);
+                return npos;
             }          
         }
 
         template<typename InputIt1, typename InputIt2>
-        size_type unchecked_find_first_not_of(const InputIt1 _first1, const InputIt1 _last1, const InputIt2 _first2, const InputIt2 _last2) const
+        size_type unchecked_find_first_not_of(InputIt1 _first1, const InputIt1 _last1, const InputIt2 _first2, const InputIt2 _last2) const
         {
-            for(size_type i = 0; i < static_cast<size_type>((std::distance(_first1, _last1))); ++i)
+            while(_first1 != _last1)
             {
-                const_iterator it = std::find_first_of(_first1 + i, _last1, _first2, _last2, Traits::eq);
+                const_iterator it = std::find_first_of(_first1, _last1, _first2, _last2, Traits::eq);
 
-                if(it != (_first1 + i))
+                if(it != _first1)
                 {
-                    return i + (std::distance(begin(), _first1));
+                    return (std::distance(begin(), _first1));
                 }
+                //else: Found match at _first1. Go ahead to next position
+
+                ++_first1;
             }
 
             return npos;        
@@ -908,27 +911,30 @@ class basic_string<CharT, Traits>
         {
             const_reverse_iterator it = std::find_first_of(_first1, _last1, _first2, _last2, Traits::eq);
 
-            if (it ==_last1)
+            if (it != _last1)
             {
-                return npos;
+                return size() - (std::distance(rbegin(), it) + 1u);
             }
             else
             {
-                return size() - std::distance(rbegin(), it) - 1;
+                return npos;
             }          
         }
 
         template<typename InputIt1, typename InputIt2>
-        size_type unchecked_find_last_not_of(const InputIt1 _first1, const InputIt1 _last1, const InputIt2 _first2, const InputIt2 _last2) const
+        size_type unchecked_find_last_not_of(InputIt1 _first1, const InputIt1 _last1, const InputIt2 _first2, const InputIt2 _last2) const
         {
-            for(size_type i = 0; i < static_cast<size_type>((std::distance(_first1, _last1))); ++i)
+            while(_first1 != _last1)
             {
-                const_reverse_iterator it = std::find_first_of(_first1 + i, _last1, _first2, _last2, Traits::eq);
+                const_reverse_iterator it = std::find_first_of(_first1, _last1, _first2, _last2, Traits::eq);
 
-                if(it != (_first1 + i))
+                if(it != _first1)
                 {
-                    return size() - (i + (std::distance(rbegin(), _first1)) + 1);
+                    return size() - ((std::distance(rbegin(), _first1)) + 1u);
                 }
+                //else: Found match at _first1. Go ahead to next position
+
+                ++_first1;
             }
 
             return npos;        
