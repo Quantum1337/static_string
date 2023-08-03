@@ -90,8 +90,8 @@ class basic_string<CharT, Traits>
         basic_string& assign(size_type _count, CharT _ch)
         {
             clear();
-            this->assert_count_in_range(_count);
-            this->unchecked_push_back_count(_count, _ch);  
+            assert_count_in_range(_count);
+            unchecked_push_back_count(_count, _ch);  
 
             return *this;
         }
@@ -99,7 +99,7 @@ class basic_string<CharT, Traits>
         basic_string& assign(const basic_string& _other)
         {
             clear();
-            internal_rangeInit(_other.begin(), _other.end(), this->back_inserter(*this));
+            internal_rangeInit(_other.begin(), _other.end(), back_inserter(*this));
 
             return *this;
         }
@@ -108,7 +108,7 @@ class basic_string<CharT, Traits>
                              size_type _pos, size_type _count=npos)
         {
             clear();
-            internal_rangeInit(_other.begin() + _pos, _other.begin() + (_count + 1u), this->back_inserter(*this));
+            internal_rangeInit(_other.begin() + _pos, _other.begin() + (_count + 1u), back_inserter(*this));
 
             return *this;
         }
@@ -126,7 +126,7 @@ class basic_string<CharT, Traits>
         basic_string& assign(const CharT* _s, size_type _count)
         {
             clear();
-            internal_rangeInit(&_s[0], &_s[_count], this->back_inserter(*this));
+            internal_rangeInit(&_s[0], &_s[_count], back_inserter(*this));
 
             return *this;
         }
@@ -136,7 +136,7 @@ class basic_string<CharT, Traits>
             clear();
 
             size_type len = this->internal_strlen(_s);
-            internal_rangeInit(&_s[0], &_s[len], this->back_inserter(*this));
+            internal_rangeInit(&_s[0], &_s[len], back_inserter(*this));
 
             return *this;
         }
@@ -145,7 +145,7 @@ class basic_string<CharT, Traits>
         basic_string& assign(InputIt _first, InputIt _last)
         {
             clear();
-            internal_rangeInit(_first, _last, this->back_inserter(*this));
+            internal_rangeInit(_first, _last, back_inserter(*this));
 
             return *this;
         }
@@ -153,7 +153,7 @@ class basic_string<CharT, Traits>
         basic_string& assign(std::initializer_list<CharT> _ilist)
         {
             clear();
-            internal_rangeInit(_ilist.begin(), _ilist.end(), this->back_inserter(*this));
+            internal_rangeInit(_ilist.begin(), _ilist.end(), back_inserter(*this));
 
             return *this;
         }
