@@ -948,13 +948,17 @@ class basic_string<CharT, Traits>
             {
                 if (_last == end())
                 {
-                    std::for_each(std::make_reverse_iterator(_last), std::make_reverse_iterator(_first), back_destroyer(*this)); //LCOV_EXCL_BR_LINE: We are not testing std::for_each branches
+                    std::for_each(std::make_reverse_iterator(_last), //LCOV_EXCL_BR_LINE: We are not testing std::for_each branches
+                                  std::make_reverse_iterator(_first), 
+                                  back_destroyer(*this));
                     return end();
                 }
                 else
                 {
                     static_cast<void>(std::rotate(to_iterator(_first), to_iterator(_last), end())); //LCOV_EXCL_BR_LINE: We are not testing std::rotate branches
-                    std::for_each(std::make_reverse_iterator(_last), std::make_reverse_iterator(_first), back_destroyer(*this)); //LCOV_EXCL_BR_LINE: We are not testing std::for_each branches
+                    std::for_each(std::make_reverse_iterator(_last), //LCOV_EXCL_BR_LINE: We are not testing std::for_each branches
+                                  std::make_reverse_iterator(_first), 
+                                  back_destroyer(*this));
                     return to_iterator(_first);
                 }
             }
@@ -1294,7 +1298,8 @@ template<class CharT>
 bool operator==(const basic_string<CharT>& _lhs,
                 const basic_string<CharT>& _rhs) noexcept
 {
-    return ((_lhs.size() == _rhs.size()) && std::equal(_lhs.cbegin(), _lhs.cend(), _rhs.cbegin()));
+    return ((_lhs.size() == _rhs.size()) && 
+             std::equal(_lhs.cbegin(), _lhs.cend(), _rhs.cbegin()));
 }
 template<class CharT>
 bool operator!=(const basic_string<CharT>& _lhs,
@@ -1331,7 +1336,8 @@ template<class CharT>
 bool operator==(const basic_string<CharT>& _lhs,
                 const CharT*               _rhs) noexcept
 {
-    return ((_lhs.size() == basic_string<CharT>::traits_type::length(_rhs)) && std::equal(_lhs.cbegin(), _lhs.cend(), &_rhs[0]));
+    return ((_lhs.size() == basic_string<CharT>::traits_type::length(_rhs)) && 
+             std::equal(_lhs.cbegin(), _lhs.cend(), &_rhs[0]));
 }
 template<class CharT>
 bool operator==(const CharT*               _lhs,
@@ -1355,7 +1361,8 @@ template<class CharT>
 bool operator<(const basic_string<CharT>& _lhs,
                const CharT*               _rhs) noexcept
 {
-    return std::lexicographical_compare(_lhs.begin(), _lhs.end(), &_rhs[0], &_rhs[basic_string<CharT>::traits_type::length(_rhs)]);
+    return std::lexicographical_compare(_lhs.begin(), _lhs.end(), 
+                                        &_rhs[0], &_rhs[basic_string<CharT>::traits_type::length(_rhs)]);
 }
 template<class CharT>
 bool operator<(const CharT*               _lhs,
