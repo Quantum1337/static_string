@@ -120,6 +120,7 @@ class basic_string<CharT, Traits>
                                std::make_move_iterator(_other.end()), 
                                back_inserter(*this));
             _other.clear();
+
             return *this;
         }
         
@@ -183,7 +184,7 @@ class basic_string<CharT, Traits>
 
         const_pointer c_str() const noexcept { *m_pos = '\0'; return &(*m_begin); }
 
-        const_pointer data() const noexcept { c_str(); }
+        const_pointer data() const noexcept { return c_str(); }
 
         // -- Iterators
         iterator begin() noexcept { return m_begin; };
@@ -358,6 +359,7 @@ class basic_string<CharT, Traits>
             assert_count_in_range(size() + std::distance(substrStart, substrStop));
  
             internal_rangeInit(substrStart, substrStop, back_inserter(*this));
+            return *this;
         }
         basic_string& append(const CharT* _s, size_type _count)
         {
