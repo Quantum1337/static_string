@@ -30,6 +30,7 @@ SOFTWARE.
 #include "basic_string_Impl.hpp"
 #include <algorithm>
 #include <string>
+#include <limits>
 
 namespace stds
 {
@@ -58,7 +59,7 @@ class basic_string<CharT, Traits>
         using reverse_iterator = std::reverse_iterator<base_iterator<value_type, basic_string>>;
         using const_reverse_iterator = std::reverse_iterator<base_iterator<value_type const, basic_string>>;
 
-        static const size_type npos = -1;
+        static const size_type npos = std::numeric_limits<size_type>::max();
 
         // -- Assignment operator
         basic_string& operator=(const basic_string& _other)
@@ -1171,7 +1172,7 @@ class basic_string : public basic_string<CharT, Traits>
         using reverse_iterator = typename base::reverse_iterator;
         using const_reverse_iterator = typename base::const_reverse_iterator;
 
-        static const size_type npos = -1;
+        static const size_type npos = std::numeric_limits<size_type>::max();
 
         basic_string()
         : base(static_cast<pointer>(static_cast<void*>(m_storage)), Size)
